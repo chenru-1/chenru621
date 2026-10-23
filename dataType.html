@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据类型与运算符</title>
+    <style>
+      
+    </style>
+</head>
+<body>
+    <script>
+        var a=6, b=1;
+        console.log(a+b);
+        console.log(a++,++b);
+        console.log(a-b>0?a:b);
+        console.log(true&&false,true||false,!true);
+        var str="hello world",num=123,bl=tru,obj={name:"张三",age:18},ud,kong=null;
+        console.log(typeof str,typeof num,typeof bl,typeof obj,typeof ud,typeof kong);
+        console.log(0.1+0.2==0.3);
+        // js不能用==或===判断浮点数相等
+        //应为浮点数不能用二进制精确存储
+        //数据类型转换：+号的时候将数字转换为字符串，-号只能用于数值运算
+        console.log(1+"1","1"-1,'11'+1-1);
+        console.log('chenru'-1);
+        //NaN: Not a Number,它与任何变量都不相等，包括它自己
+        console.log(isNaN(NaN));
+        console.log(NaN==NaN,null==null);
+        //isNaN()函数用来判断一个变量是否为NaN
+        //parseInt()函数将字符串转换为整数是取整
+        console.log(parseInt(123.79));
+        //如果想判断一个数值是不是整数的方法有什么？
+        var num=123;
+        console.log(num==parseInt(num));
+        //parseInt()第二个参数表示进制数
+        console.log(parseFloat(100,16));
+        //1-100求和
+        var sum=0;
+        for(var i=1;i<=100;i++){
+            sum+=i;
+        }
+       
+    </script>
+</body>
+</html>

@@ -1,3 +1,13 @@
+# 本地技能文件（含私人令牌，禁止入库）
+skills/
+
+# IDE 临时文件
+.trae-html-share-packages/
+
+# 系统文件
+Thumbs.db
+Desktop.ini
+
 # Build and Release Folders
 bin-debug/
 bin-release/
@@ -12,7 +22,3 @@ bin-release/
 *.air
 *.ipa
 *.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.

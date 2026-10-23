@@ -1,0 +1,328 @@
+/* ============================================================
+   钢雕图版 · Lucide 矢量图标（SVG）
+   品牌概念：铸字行样张姊妹页 —— 雕版工坊
+   规则：所有类名、id 名以 cr_ 开头
+   ============================================================ */
+
+:root {
+    --cr-paper: #e9ecef;      /* 冷灰纸底 */
+    --cr-plate: #f7f8f8;      /* 版面白 */
+    --cr-ink: #16333c;        /* 油墨青 */
+    --cr-lead: #6e7f87;       /* 铅灰 */
+    --cr-rule: #c3ccd1;       /* 细格线 */
+    --cr-seal: #c2401f;       /* 印章朱（小面积专用） */
+    --cr-song: "STZhongsong", "SimSun", "Songti SC", "Noto Serif SC", serif;
+    --cr-hei: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--cr-ink);
+    font-family: var(--cr-hei);
+    background-color: var(--cr-paper);
+    /* 雕版工作台：极淡方格线 */
+    background-image:
+        repeating-linear-gradient(0deg, rgba(22, 51, 60, .035) 0, rgba(22, 51, 60, .035) 1px, transparent 1px, transparent 28px),
+        repeating-linear-gradient(90deg, rgba(22, 51, 60, .035) 0, rgba(22, 51, 60, .035) 1px, transparent 1px, transparent 28px);
+    min-height: 100vh;
+}
+
+/* ---------- 页眉：印章 + 标题（与活字样张同构） ---------- */
+
+.cr_hero {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    width: min(1080px, 92%);
+    margin: 0 auto;
+    padding: 64px 0 40px;
+}
+
+.cr_seal {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    color: var(--cr-plate);
+    font-family: var(--cr-song);
+    font-size: 40px;
+    line-height: 1;
+    background: var(--cr-seal);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 3px var(--cr-seal), inset 0 0 0 4px rgba(247, 248, 248, .85);
+    transform: rotate(-3deg);
+}
+
+.cr_edition {
+    font-size: 13px;
+    letter-spacing: .35em;
+    color: var(--cr-lead);
+}
+
+.cr_title {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: clamp(46px, 8vw, 92px);
+    letter-spacing: .14em;
+    line-height: 1.15;
+    animation: cr_engrave .9s ease-out both;
+}
+
+.cr_sub {
+    margin-top: 10px;
+    font-size: 15px;
+    color: var(--cr-lead);
+}
+
+@keyframes cr_engrave {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+        transform: scale(1.05);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cr_title {
+        animation: none;
+    }
+}
+
+/* ---------- 雕线控制（本页独有的可动部件） ---------- */
+
+.cr_sheet {
+    width: min(1080px, 92%);
+    margin: 0 auto 60px;
+}
+
+.cr_controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    padding: 18px 22px;
+    margin-bottom: 46px;
+    border: 2px solid var(--cr-ink);
+    background: var(--cr-plate);
+}
+
+.cr_controls h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: .18em;
+}
+
+.cr_controls p {
+    flex-basis: 100%;
+    font-size: 13px;
+    color: var(--cr-lead);
+}
+
+/* 自定义滑块：轨道为刻线，拇指为一枚小印 */
+.cr_slider {
+    flex: 1 1 260px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    background: var(--cr-ink);
+    outline-offset: 6px;
+    cursor: ew-resize;
+}
+
+.cr_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 4px;
+    background: var(--cr-seal);
+    box-shadow: inset 0 0 0 2px var(--cr-seal), inset 0 0 0 3px rgba(247, 248, 248, .85);
+    cursor: ew-resize;
+}
+
+.cr_slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: none;
+    border-radius: 4px;
+    background: var(--cr-seal);
+    cursor: ew-resize;
+}
+
+.cr_slider:focus-visible {
+    outline: 2px solid var(--cr-seal);
+}
+
+.cr_readout {
+    font-family: var(--cr-song);
+    font-size: 20px;
+    min-width: 3ch;
+    text-align: right;
+}
+
+/* ---------- 图版（SVG 图标分区） ---------- */
+
+.cr_plate {
+    margin-bottom: 40px;
+    border: 2px solid var(--cr-ink);
+    background: var(--cr-plate);
+}
+
+.cr_plate_head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding: 14px 20px;
+    border-bottom: 2px solid var(--cr-ink);
+}
+
+.cr_plate_head h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: .18em;
+}
+
+.cr_plate_head p {
+    font-size: 13px;
+    color: var(--cr-lead);
+}
+
+/* 图版内部同样以 1px 缝隙为格线 */
+.cr_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1px;
+    background: var(--cr-rule);
+}
+
+.cr_glyph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 26px 10px 20px;
+    background: var(--cr-plate);
+    text-align: center;
+    transition: background .15s ease, color .15s ease;
+}
+
+.cr_glyph svg.lucide {
+    width: 34px;
+    height: 34px;
+}
+
+.cr_glyph figcaption {
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--cr-lead);
+    transition: color .15s ease;
+}
+
+/* hover：线稿落墨 */
+.cr_glyph:hover {
+    background: var(--cr-ink);
+}
+
+.cr_glyph:hover svg.lucide {
+    stroke: var(--cr-plate);
+}
+
+.cr_glyph:hover figcaption {
+    color: rgba(247, 248, 248, .72);
+}
+
+/* ---------- 雕版原理说明 ---------- */
+
+.cr_note {
+    max-width: 640px;
+    padding-top: 8px;
+    border-top: 2px solid var(--cr-ink);
+}
+
+.cr_note h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: .18em;
+    margin-bottom: 12px;
+}
+
+.cr_note p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--cr-ink);
+    margin-bottom: 8px;
+}
+
+.cr_code {
+    display: inline-block;
+    padding: 1px 7px;
+    font-family: var(--cr-hei);
+    font-size: 13px;
+    color: var(--cr-ink);
+    background: rgba(22, 51, 60, .08);
+    border-radius: 3px;
+}
+
+/* ---------- 页间导航 ---------- */
+
+.cr_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 36px;
+    margin-top: 46px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cr-rule);
+    font-size: 14px;
+}
+
+.cr_nav a {
+    color: var(--cr-ink);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+}
+
+.cr_nav a:hover {
+    color: var(--cr-seal);
+}
+
+.cr_footer {
+    width: min(1080px, 92%);
+    margin: 0 auto;
+    padding: 24px 0 40px;
+    font-size: 13px;
+    color: var(--cr-lead);
+}
+
+/* ---------- 小屏 ---------- */
+
+@media (max-width: 560px) {
+    .cr_hero {
+        gap: 18px;
+        padding-top: 44px;
+    }
+
+    .cr_seal {
+        width: 56px;
+        height: 56px;
+        font-size: 30px;
+    }
+}

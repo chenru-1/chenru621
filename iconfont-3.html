@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>口袋字盘 · iconfont 字体图标底部导航</title>
+    <!-- 本地 iconfont 字体样式（字体图标方式） -->
+    <link rel="stylesheet" href="./font/iconfont.css">
+    <link rel="stylesheet" href="./css/iconfont-3.css">
+</head>
+<body>
+    <main class="cr_sheet">
+        <header class="cr_hero">
+            <div class="cr_seal" aria-hidden="true">陈</div>
+            <div>
+                <p class="cr_edition">样张第三号 · Specimen No.3</p>
+                <h1 class="cr_title">口袋字盘</h1>
+                <p class="cr_sub">iconfont 字体图标 — 装进口袋的铸字行</p>
+            </div>
+        </header>
+
+        <!-- 字盘清点：font 目录中的四枚活字 -->
+        <section class="cr_case">
+            <header class="cr_case_head">
+                <h2>字盘清点</h2>
+                <p>font/iconfont · 字体图标 · 码位档案</p>
+            </header>
+            <div class="cr_row">
+                <span class="iconfont icon-shouye" aria-hidden="true"></span>
+                <span class="cr_row_name">首页</span>
+                <span class="cr_row_meta">icon-shouye = \e6a9</span>
+            </div>
+            <div class="cr_row">
+                <span class="iconfont icon-shoucang" aria-hidden="true"></span>
+                <span class="cr_row_name">收藏</span>
+                <span class="cr_row_meta">icon-shoucang = \e642</span>
+            </div>
+            <div class="cr_row">
+                <span class="iconfont icon-gouwuche" aria-hidden="true"></span>
+                <span class="cr_row_name">购物车</span>
+                <span class="cr_row_meta">icon-gouwuche = \e64f</span>
+            </div>
+            <div class="cr_row">
+                <span class="iconfont icon-a-wode" aria-hidden="true"></span>
+                <span class="cr_row_name">我的</span>
+                <span class="cr_row_meta">icon-a-wode = \e612</span>
+            </div>
+        </section>
+
+        <!-- 交互演示 -->
+        <section class="cr_actions">
+            <h2>添一枚入字篓</h2>
+            <p>
+                点击下方按钮，底部导航"购物车"右上角的数字徽章随即增一枚；
+                点"收藏"即视为已读，红点隐去。
+            </p>
+            <button class="cr_add_btn" id="cr_add_btn" type="button">添一枚入字篓</button>
+        </section>
+
+        <!-- 实现要点 -->
+        <section class="cr_note">
+            <h2>实现要点</h2>
+            <p>
+                导航以 <code class="cr_code">position: fixed; bottom: 0</code> 钉在页底，
+                宽度随视口自适应；四个项目 <code class="cr_code">flex: 1</code> 等分。
+                数字徽章与红点皆绝对定位于图标右上角。
+            </p>
+            <p>
+                图标是字体：类名 <code class="cr_code">.iconfont .icon-shouye</code>
+                从字体文件里取出码位 <code class="cr_code">\e6a9</code> 对应的字形，
+                放大不失真，颜色随文字。
+            </p>
+        </section>
+
+        <nav class="cr_nav">
+            <a href="index.html">返回首页</a>
+            <a href="iconfont-4.html">看下一张：钢雕囊版 · SVG 方式</a>
+            <a href="iconfont-1.html">活字样张 No.1</a>
+            <a href="iconfont-2.html">钢雕图版 No.2</a>
+        </nav>
+    </main>
+
+    <!-- 底部固定导航：四项自适应等宽 -->
+    <nav class="cr_tabbar" aria-label="底部导航">
+        <button class="cr_tab cr_active" type="button" aria-current="page">
+            <span class="cr_tab_glyph">
+                <span class="iconfont icon-shouye" aria-hidden="true"></span>
+            </span>
+            <span class="cr_tab_label">首页</span>
+        </button>
+        <button class="cr_tab" type="button">
+            <span class="cr_tab_glyph">
+                <span class="iconfont icon-shoucang" aria-hidden="true"></span>
+                <span class="cr_badge_dot" id="cr_fav_dot"></span>
+            </span>
+            <span class="cr_tab_label">收藏</span>
+        </button>
+        <button class="cr_tab" type="button">
+            <span class="cr_tab_glyph">
+                <span class="iconfont icon-gouwuche" aria-hidden="true"></span>
+                <span class="cr_badge_num" id="cr_cart_badge">2</span>
+            </span>
+            <span class="cr_tab_label">购物车</span>
+        </button>
+        <button class="cr_tab" type="button">
+            <span class="cr_tab_glyph">
+                <span class="iconfont icon-a-wode" aria-hidden="true"></span>
+            </span>
+            <span class="cr_tab_label">我的</span>
+        </button>
+    </nav>
+
+    <script>
+        // 规则：所有 JS 变量以 cr_ 开头
+        var cr_tabs = document.querySelectorAll('.cr_tab');
+        var cr_add_btn = document.getElementById('cr_add_btn');
+        var cr_cart_badge = document.getElementById('cr_cart_badge');
+        var cr_fav_dot = document.getElementById('cr_fav_dot');
+        var cr_cart_count = 2;
+
+        // 切换激活项
+        cr_tabs.forEach(function (cr_tab) {
+            cr_tab.addEventListener('click', function () {
+                cr_tabs.forEach(function (cr_item) {
+                    cr_item.classList.remove('cr_active');
+                    cr_item.removeAttribute('aria-current');
+                });
+                cr_tab.classList.add('cr_active');
+                cr_tab.setAttribute('aria-current', 'page');
+                // 查看收藏后，红点已读隐去
+                if (cr_tab.querySelector('#cr_fav_dot')) {
+                    cr_fav_dot.remove();
+                }
+            });
+        });
+
+        // 数字徽章 +1，并弹跳一下
+        cr_add_btn.addEventListener('click', function () {
+            cr_cart_count += 1;
+            cr_cart_badge.textContent = cr_cart_count;
+            cr_cart_badge.classList.remove('cr_badge_pop');
+            void cr_cart_badge.offsetWidth; /* 重置动画 */
+            cr_cart_badge.classList.add('cr_badge_pop');
+        });
+    </script>
+</body>
+</html>

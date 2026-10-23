@@ -1,0 +1,390 @@
+/* ============================================================
+   钢雕囊版 · iconfont SVG 图标移动端底部导航
+   品牌概念：铸字行样张 —— 口袋里的雕版工坊
+   规则：所有类名、id 名以 cr_ 开头
+   ============================================================ */
+
+:root {
+    --cr-paper: #e9ecef;      /* 冷灰纸底 */
+    --cr-plate: #f7f8f8;      /* 版面白 */
+    --cr-ink: #16333c;        /* 油墨青 */
+    --cr-lead: #6e7f87;       /* 铅灰 */
+    --cr-rule: #c3ccd1;       /* 细格线 */
+    --cr-seal: #c2401f;       /* 印章朱（徽章/印章专用） */
+    --cr-song: "STZhongsong", "SimSun", "Songti SC", "Noto Serif SC", serif;
+    --cr-hei: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--cr-ink);
+    font-family: var(--cr-hei);
+    background-color: var(--cr-paper);
+    background-image:
+        repeating-linear-gradient(0deg, rgba(22, 51, 60, .035) 0, rgba(22, 51, 60, .035) 1px, transparent 1px, transparent 28px),
+        repeating-linear-gradient(90deg, rgba(22, 51, 60, .035) 0, rgba(22, 51, 60, .035) 1px, transparent 1px, transparent 28px);
+    min-height: 100vh;
+}
+
+/* ---------- 页面主体：手机版式 ---------- */
+
+.cr_sheet {
+    width: min(480px, 100%);
+    margin: 0 auto;
+    padding: 0 20px 110px;
+}
+
+.cr_hero {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 44px 0 30px;
+}
+
+.cr_seal {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    color: var(--cr-plate);
+    font-family: var(--cr-song);
+    font-size: 30px;
+    line-height: 1;
+    background: var(--cr-seal);
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 2px var(--cr-seal), inset 0 0 0 3px rgba(247, 248, 248, .85);
+    transform: rotate(-3deg);
+}
+
+.cr_edition {
+    font-size: 11px;
+    letter-spacing: .3em;
+    color: var(--cr-lead);
+}
+
+.cr_title {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 40px;
+    letter-spacing: .14em;
+    line-height: 1.2;
+    animation: cr_engrave .9s ease-out both;
+}
+
+.cr_sub {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--cr-lead);
+}
+
+@keyframes cr_engrave {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+        transform: scale(1.05);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cr_title {
+        animation: none;
+    }
+}
+
+/* ---------- 图版清点（四枚 SVG 雕版档案） ---------- */
+
+.cr_case {
+    margin-bottom: 28px;
+    border: 2px solid var(--cr-ink);
+    background: var(--cr-plate);
+}
+
+.cr_case_head {
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--cr-ink);
+}
+
+.cr_case_head h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: .16em;
+}
+
+.cr_case_head p {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--cr-lead);
+}
+
+.cr_row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 16px;
+}
+
+.cr_row + .cr_row {
+    border-top: 1px solid var(--cr-rule);
+}
+
+.cr_row svg {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    color: var(--cr-ink);
+}
+
+.cr_row_name {
+    flex: 1;
+    font-size: 14px;
+}
+
+.cr_row_meta {
+    font-size: 12px;
+    color: var(--cr-lead);
+}
+
+/* ---------- 交互区 ---------- */
+
+.cr_actions {
+    margin-bottom: 28px;
+    padding: 18px 16px;
+    border-top: 2px solid var(--cr-ink);
+}
+
+.cr_actions h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: .16em;
+    margin-bottom: 8px;
+}
+
+.cr_actions p {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--cr-ink);
+    margin-bottom: 14px;
+}
+
+.cr_add_btn {
+    display: inline-block;
+    padding: 10px 22px;
+    font-family: var(--cr-hei);
+    font-size: 14px;
+    letter-spacing: .1em;
+    color: var(--cr-plate);
+    background: var(--cr-ink);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+
+.cr_add_btn:hover {
+    background: #0d232b;
+}
+
+.cr_add_btn:active {
+    transform: translateY(1px);
+}
+
+.cr_add_btn:focus-visible {
+    outline: 2px solid var(--cr-seal);
+    outline-offset: 3px;
+}
+
+/* ---------- 实现要点 ---------- */
+
+.cr_note {
+    margin-bottom: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cr-rule);
+}
+
+.cr_note h2 {
+    font-family: var(--cr-song);
+    font-weight: 400;
+    font-size: 17px;
+    letter-spacing: .16em;
+    margin-bottom: 8px;
+}
+
+.cr_note p {
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--cr-ink);
+    margin-bottom: 6px;
+}
+
+.cr_code {
+    display: inline-block;
+    padding: 0 6px;
+    font-family: var(--cr-hei);
+    font-size: 12px;
+    color: var(--cr-ink);
+    background: rgba(22, 51, 60, .08);
+    border-radius: 3px;
+}
+
+/* ---------- 页间导航 ---------- */
+
+.cr_nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    padding: 14px 0 26px;
+    border-top: 1px solid var(--cr-rule);
+    font-size: 13px;
+}
+
+.cr_nav a {
+    color: var(--cr-ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+}
+
+.cr_nav a:hover {
+    color: var(--cr-seal);
+}
+
+/* ---------- 底部固定导航：自适应宽度、四项等分 ---------- */
+
+.cr_tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--cr-plate);
+    border-top: 2px solid var(--cr-ink);
+    box-shadow: 0 -6px 18px rgba(22, 51, 60, .08);
+    z-index: 10;
+}
+
+.cr_tab {
+    position: relative;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 9px 4px 8px;
+    font-family: var(--cr-hei);
+    font-size: 11px;
+    letter-spacing: .08em;
+    color: var(--cr-lead);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color .15s ease;
+}
+
+.cr_tab:focus-visible {
+    outline: 2px solid var(--cr-seal);
+    outline-offset: -4px;
+}
+
+/* 图标容器：徽章的定位基准 */
+.cr_tab_glyph {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 26px;
+}
+
+.cr_tab_glyph svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.cr_tab.cr_active {
+    color: var(--cr-ink);
+}
+
+.cr_tab.cr_active .cr_tab_label {
+    font-weight: bold;
+}
+
+/* 选中项：顶部一枚短刻线 */
+.cr_tab::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--cr-seal);
+    transform: translateX(-50%);
+    transition: width .2s ease;
+}
+
+.cr_tab.cr_active::after {
+    width: 26px;
+}
+
+/* ---------- 右上角徽章：数字徽章与红点 ---------- */
+
+.cr_badge_num {
+    position: absolute;
+    top: -7px;
+    right: -12px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    line-height: 1;
+    color: var(--cr-plate);
+    background: var(--cr-seal);
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px var(--cr-plate);
+}
+
+.cr_badge_dot {
+    position: absolute;
+    top: -3px;
+    right: -6px;
+    width: 8px;
+    height: 8px;
+    background: var(--cr-seal);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--cr-plate);
+}
+
+/* 徽章更新时的一次弹跳 */
+.cr_badge_pop {
+    animation: cr_badge_pop .35s ease;
+}
+
+@keyframes cr_badge_pop {
+    0%   { transform: scale(.5); }
+    60%  { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cr_badge_pop {
+        animation: none;
+    }
+}

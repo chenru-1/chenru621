@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈茹的《高级网页设计》课堂实践</title>
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --secondary: #00b4d8;
+            --text: #263238;
+            --muted: #607d8b;
+            --background: #f4f7fb;
+            --card: rgba(255, 255, 255, .92);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--text);
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, #dcd9ff 0, transparent 28%),
+                radial-gradient(circle at 90% 20%, #c9f5ff 0, transparent 28%),
+                var(--background);
+        }
+
+        header {
+            padding: 80px 20px 65px;
+            color: white;
+            text-align: center;
+            background: linear-gradient(135deg, #5148d8, #00a6c7);
+            clip-path: ellipse(90% 80% at 50% 15%);
+        }
+
+        header h1 {
+            margin-bottom: 16px;
+            font-size: clamp(28px, 5vw, 54px);
+            letter-spacing: 3px;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: .9;
+        }
+
+        main {
+            width: min(1100px, 92%);
+            margin: -20px auto 50px;
+        }
+
+        .intro,
+        .catalog,
+        .prompt {
+            padding: 30px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,.7);
+            border-radius: 20px;
+            background: var(--card);
+            box-shadow: 0 12px 35px rgba(55, 70, 120, .1);
+        }
+
+        h2 {
+            margin-bottom: 22px;
+            color: #4038a8;
+        }
+
+        .intro {
+            text-align: center;
+            line-height: 1.9;
+        }
+
+        .catalog-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            list-style: none;
+        }
+
+        .catalog-list a {
+            display: block;
+            height: 100%;
+            padding: 24px;
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid #e2e6f5;
+            border-radius: 14px;
+            background: linear-gradient(145deg, #fff, #f5f6ff);
+            transition: .25s ease;
+        }
+
+        .catalog-list a:hover {
+            color: white;
+            transform: translateY(-6px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 22px rgba(76, 70, 220, .25);
+        }
+
+        .catalog-list strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .catalog-list span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .catalog-list a:hover span {
+            color: rgba(255,255,255,.85);
+        }
+
+        .prompt p {
+            padding: 18px;
+            color: #455a64;
+            line-height: 1.8;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            background: #f5f6ff;
+        }
+
+        footer {
+            padding: 25px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 60px 15px 55px;
+            }
+
+            .intro,
+            .catalog,
+            .prompt {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>高级网页设计</h1>
+        <p>陈茹的课堂实践作品集</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>欢迎来到我的课堂实践主页</h2>
+            <p>
+                这里记录《高级网页设计》课程中的学习成果与实践作品。
+                页面将持续更新，敬请期待后续模块。
+            </p>
+        </section>
+
+        <section class="catalog">
+            <h2>课堂目录</h2>
+            <ul class="catalog-list">
+                <li>
+                    <a href="./felx.html">
+                        <strong>Flex 复习</strong>
+                        <span>Flex 布局综合练习与案例展示</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./1.html">
+                        <strong>SVG 图标</strong>
+                        <span>SVG 图标的使用与页面设计实践</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./iconfont-1.html">
+                        <strong>活字样张</strong>
+                        <span>Font Awesome 字体图标铸字行样张</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./iconfont-2.html">
+                        <strong>钢雕图版</strong>
+                        <span>Lucide 矢量图标 SVG 图版与雕线演示</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./iconfont-3.html">
+                        <strong>口袋字盘</strong>
+                        <span>iconfont 字体图标移动端底部导航与徽章</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./iconfont-4.html">
+                        <strong>钢雕囊版</strong>
+                        <span>iconfont SVG 图标移动端底部导航与徽章</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./function.html">
+                        <strong>JS 函数</strong>
+                        <span>随机数猜数字游戏与函数练习</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./dataType.html">
+                        <strong>数据类型与运算符</strong>
+                        <span>JavaScript 数据类型、运算符与类型转换练习</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./obj.html">
+                        <strong>JS 对象</strong>
+                        <span>对象属性、方法、遍历与引用类型练习</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./js_boj_apply.html">
+                        <strong>JS 对象应用</strong>
+                        <span>使用对象制作个人明信片并练习对象方法</span>
+                    </a>
+                </li>
+
+            </ul>
+        </section>
+
+        <section class="prompt">
+            <h2>本次任务提示词</h2>
+            <p>
+                创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，
+                新页面名称为index.html，主题为陈茹的《高级网页设计》课堂实践，
+                美化页面，课堂目录中包含flex复习、字体图标、其余模块后续在增加。
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 陈茹 · 《高级网页设计》课堂实践
+    </footer>
+</body>
+</html>
