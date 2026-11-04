@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!--
+        作者：陈茹
+        建立时间：2026-11-04
+        使用模型：GLM-5.3-Flash
+        功能名称：Tab 选项卡
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab 选项卡 · 陈茹的《高级网页设计》课堂实践</title>
+    <style>
+        :root {
+            --cr_primary: #6c63ff;
+            --cr_secondary: #00b4d8;
+            --cr_text: #263238;
+            --cr_muted: #607d8b;
+            --cr_background: #f4f7fb;
+            --cr_card: rgba(255, 255, 255, .92);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--cr_text);
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, #dcd9ff 0, transparent 28%),
+                radial-gradient(circle at 90% 20%, #c9f5ff 0, transparent 28%),
+                var(--cr_background);
+        }
+
+        .cr_topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            color: white;
+            background: linear-gradient(135deg, #5148d8, #00a6c7);
+        }
+
+        .cr_topbar h1 {
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .cr_back {
+            color: white;
+            text-decoration: none;
+            padding: 8px 18px;
+            border: 1px solid rgba(255, 255, 255, .6);
+            border-radius: 999px;
+            font-size: 14px;
+            transition: .25s ease;
+        }
+
+        .cr_back:hover {
+            background: rgba(255, 255, 255, .18);
+        }
+
+        main {
+            width: min(860px, 92%);
+            margin: 36px auto 60px;
+        }
+
+        .cr_page-intro {
+            margin-bottom: 24px;
+            color: var(--cr_muted);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* ===== 选项卡组件样式（可复用） ===== */
+        .cr_tabs {
+            margin-bottom: 30px;
+            padding: 26px;
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 20px;
+            background: var(--cr_card);
+            box-shadow: 0 12px 35px rgba(55, 70, 120, .1);
+        }
+
+        .cr_tabs > h2 {
+            margin-bottom: 18px;
+            color: #4038a8;
+            font-size: 20px;
+        }
+
+        .cr_tab-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #e2e6f5;
+        }
+
+        .cr_tab-btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            background: transparent;
+            color: var(--cr_muted);
+            font-size: 15px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: .25s ease;
+        }
+
+        .cr_tab-btn:hover {
+            color: var(--cr_primary);
+            background: #f0eeff;
+        }
+
+        /* 选中状态：只有带 cr_active 的标签和面板显示 */
+        .cr_tab-btn.cr_active {
+            color: white;
+            background: linear-gradient(135deg, var(--cr_primary), var(--cr_secondary));
+            box-shadow: 0 6px 14px rgba(76, 70, 220, .28);
+        }
+
+        .cr_tab-panel {
+            display: none;
+            padding-top: 20px;
+            line-height: 2;
+            color: #455a64;
+        }
+
+        .cr_tab-panel.cr_active {
+            display: block;
+            animation: cr_fade .35s ease;
+        }
+
+        .cr_tab-panel h3 {
+            margin-bottom: 10px;
+            color: #4038a8;
+            font-size: 17px;
+        }
+
+        .cr_tab-panel ul {
+            padding-left: 22px;
+        }
+
+        @keyframes cr_fade {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            padding: 25px;
+            color: var(--cr_muted);
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cr_topbar">
+        <h1>Tab 选项卡</h1>
+        <a class="cr_back" href="index.html">返回首页</a>
+    </div>
+
+    <main>
+        <p class="cr_page-intro">
+            使用外部 js/tab.js 实现的可复用选项卡组件：点击标签时先清除所有选中状态，再设置当前元素选中。
+            本页放了两组选项卡，共用同一段 JS 代码。
+        </p>
+
+        <!-- 第一组：新闻选项卡（国内新闻为默认选中） -->
+        <div class="cr_tabs" id="cr_newsTabs">
+            <h2>新闻中心</h2>
+            <div class="cr_tab-bar" role="tablist">
+                <button class="cr_tab-btn cr_active" type="button">国内新闻</button>
+                <button class="cr_tab-btn" type="button">省内新闻</button>
+                <button class="cr_tab-btn" type="button">国际新闻</button>
+                <button class="cr_tab-btn" type="button">最热新闻</button>
+            </div>
+            <section class="cr_tab-panel cr_active">
+                <h3>国内新闻</h3>
+                <ul>
+                    <li>全国职业教育大会在京召开，部署新一轮产教融合试点。</li>
+                    <li>国产大飞机完成新一轮航线验证飞行，运营网络持续扩展。</li>
+                    <li>多地推出数字消费券，激发秋冬消费市场活力。</li>
+                    <li>国家图书馆"数字典藏"工程新增十万册古籍高清影像。</li>
+                </ul>
+            </section>
+            <section class="cr_tab-panel">
+                <h3>省内新闻</h3>
+                <ul>
+                    <li>我省高校职业技能大赛落幕，多支队伍斩获一等奖。</li>
+                    <li>全省智慧交通系统上线，实时路况覆盖主要城区。</li>
+                    <li>文化旅游节开幕，非遗市集人气火爆。</li>
+                    <li>省内多所高校开设人工智能通识课程，选课人数创新高。</li>
+                </ul>
+            </section>
+            <section class="cr_tab-panel">
+                <h3>国际新闻</h3>
+                <ul>
+                    <li>多国代表在联合国气候大会上就减排目标交换意见。</li>
+                    <li>国际航天机构联合发布新一轮深空探测合作计划。</li>
+                    <li>全球数字经济峰会在新加坡举行，聚焦人工智能治理。</li>
+                    <li>欧洲多国推进跨境高铁网络互联互通建设。</li>
+                </ul>
+            </section>
+            <section class="cr_tab-panel">
+                <h3>最热新闻</h3>
+                <ul>
+                    <li>热搜第一：我国新一代超级计算机正式投入使用。</li>
+                    <li>热搜第二：全国秋粮收获过九成，丰产已成定局。</li>
+                    <li>热搜第三：青年科学家团队破解量子纠错关键难题。</li>
+                    <li>热搜第四：城市"一刻钟便民生活圈"覆盖率达到八成。</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- 第二组：复用演示，同一份 js/tab.js 自动初始化 -->
+        <div class="cr_tabs" id="cr_demoTabs">
+            <h2>复用演示 · 本周课堂安排</h2>
+            <div class="cr_tab-bar" role="tablist">
+                <button class="cr_tab-btn cr_active" type="button">周一</button>
+                <button class="cr_tab-btn" type="button">周三</button>
+                <button class="cr_tab-btn" type="button">周五</button>
+            </div>
+            <section class="cr_tab-panel cr_active">
+                <h3>周一</h3>
+                <p>上午：HTML5 语义化标签讲解；下午：CSS 渐变与圆角实战。</p>
+            </section>
+            <section class="cr_tab-panel">
+                <h3>周三</h3>
+                <p>上午：JavaScript DOM 操作；下午：选项卡组件开发（本页内容）。</p>
+            </section>
+            <section class="cr_tab-panel">
+                <h3>周五</h3>
+                <p>上午：事件监听与交互练习；下午：综合案例答辩与点评。</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        © 2026 陈茹 · 《高级网页设计》课堂实践
+    </footer>
+
+    <!-- 外部引用 js 文件夹中的选项卡脚本 -->
+    <script src="js/tab.js"></script>
+</body>
+</html>

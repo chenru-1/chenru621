@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!--
+        作者：陈茹
+        建立时间：2026-11-04
+        使用模型：GLM-5.3-Flash
+        功能名称：旅游投诉栏目（Tab 一比一还原）
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅游投诉栏目 · 陈茹的《高级网页设计》课堂实践</title>
+    <style>
+        :root {
+            --cr_red: #c30d23;
+            --cr_text: #1a1a1a;
+            --cr_line: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--cr_text);
+            font-family: "Microsoft YaHei", "SimSun", sans-serif;
+            background: #f5f5f5;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        /* ===== 投诉栏目（一比一还原设计图） ===== */
+        .cr_tabs {
+            width: 300px;
+            background: #fff;
+            border: 1px solid var(--cr_line);
+        }
+
+        /* 标题栏：三个选项卡等宽排列，选中项红底白字 */
+        .cr_tab-bar {
+            display: flex;
+            border-bottom: 2px solid var(--cr_red);
+        }
+
+        .cr_tab-btn {
+            flex: 1;
+            padding: 9px 0;
+            border: none;
+            background: #fff;
+            color: #000;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .cr_tab-btn:hover {
+            color: var(--cr_red);
+        }
+
+        /* 选中状态：红底白字 */
+        .cr_tab-btn.cr_active {
+            color: #fff;
+            background: var(--cr_red);
+        }
+
+        .cr_tab-panel {
+            display: none;
+            padding: 8px 10px;
+        }
+
+        .cr_tab-panel.cr_active {
+            display: block;
+        }
+
+        /* 新闻列表：红色小方块引导，行距宽松 */
+        .cr_tab-panel li {
+            list-style: none;
+            position: relative;
+            padding-left: 13px;
+            font-size: 13px;
+            line-height: 2.15;
+            color: var(--cr_text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .cr_tab-panel li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--cr_red);
+        }
+
+        .cr_tab-panel a {
+            color: var(--cr_text);
+            text-decoration: none;
+        }
+
+        .cr_tab-panel a:hover {
+            color: var(--cr_red);
+            text-decoration: underline;
+        }
+
+        /* 隐蔽式返回首页链接：卡片底部淡灰小字 */
+        .cr_home-link {
+            display: block;
+            margin-top: 10px;
+            text-align: right;
+            color: #c8c8c8;
+            font-size: 10px;
+            text-decoration: none;
+            transition: .2s ease;
+        }
+
+        .cr_home-link:hover {
+            color: var(--cr_red);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- 投诉栏目：三个选项卡共用 js/tab.js 自动初始化 -->
+        <div class="cr_tabs" id="cr_tousuTabs">
+            <div class="cr_tab-bar" role="tablist">
+                <button class="cr_tab-btn cr_active" type="button">最新投诉</button>
+                <button class="cr_tab-btn" type="button">官方回应</button>
+                <button class="cr_tab-btn" type="button">追踪调查</button>
+            </div>
+
+            <!-- 选项卡一：最新投诉（默认选中） -->
+            <ul class="cr_tab-panel cr_active">
+                <li><a href="javascript:void(0)">北京火车站出租车私索调查 司机称计价器坏</a></li>
+                <li><a href="javascript:void(0)">公园仙人掌遭刻字"毁容" 一棵仙人掌被刻</a></li>
+                <li><a href="javascript:void(0)">昆明再现游客"裸手捕鸟" 网友速弃(组图)</a></li>
+                <li><a href="javascript:void(0)">四川一星级公厕开建1年未开放变"茶楼"</a></li>
+                <li><a href="javascript:void(0)">北京北海地坛公园暗藏高档会所 园方称"竭</a></li>
+                <li><a href="javascript:void(0)">北京北海金丝楠木柱遭英文刻字"签名"破坏</a></li>
+                <li><a href="javascript:void(0)">北京动物园理财产品揽客 低价门票遭"雪藏"</a></li>
+                <li><a href="javascript:void(0)">女子不满"零购物"投诉旅行社 称东西一样没</a></li>
+                <li><a href="javascript:void(0)">老人组团游权益受侵害 旅行社被曝对老人</a></li>
+            </ul>
+
+            <!-- 选项卡二：官方回应 -->
+            <ul class="cr_tab-panel">
+                <li><a href="javascript:void(0)">大绿鸭、蓬尾鸭装热门 法官解读"山寨鸭"是</a></li>
+                <li><a href="javascript:void(0)">国家旅游局回应涨价："团队游价格系正常</a></li>
+                <li><a href="javascript:void(0)">国家旅游局回应"新旅游法实施后旅行社团</a></li>
+                <li><a href="javascript:void(0)">出游遇纠纷可依《旅游法》维权 明确旅游投</a></li>
+                <li><a href="javascript:void(0)">解读新旅游法三"谣传" 扫贫扶可安心</a></li>
+                <li><a href="javascript:void(0)">《旅游法》将抑制"零负团费"和"门票经</a></li>
+                <li><a href="javascript:void(0)">文明旅游纳入旅行社合同 旅游局官方和业内</a></li>
+                <li><a href="javascript:void(0)">天津二季度旅行社服务质量公布 投诉涉及8</a></li>
+                <li><a href="javascript:void(0)">敦煌：国家法定节假日所有景点景区免收停</a></li>
+            </ul>
+
+            <!-- 选项卡三：追踪调查 -->
+            <ul class="cr_tab-panel">
+                <li><a href="javascript:void(0)">《旅游法》实施半月 自贵景区遭正规一日游</a></li>
+                <li><a href="javascript:void(0)">迪喀香格里拉旅游"怪象"：涉事导游等已</a></li>
+                <li><a href="javascript:void(0)">导游挣线被"砍"波 及游客旅行社自己</a></li>
+                <li><a href="javascript:void(0)">九寨沟为何变成"死胡同"？——数千游客</a></li>
+                <li><a href="javascript:void(0)">九寨沟为何现场游客滞留？</a></li>
+                <li><a href="javascript:void(0)">旅游之尴尬:腾"爷"浙博物馆，女士超性想进</a></li>
+                <li><a href="javascript:void(0)">记者暗访兵马俑景区：玉器店买玉 过期门票</a></li>
+                <li><a href="javascript:void(0)">假冒香港游客借卡持殊 两女子怨悠女大学生</a></li>
+                <li><a href="javascript:void(0)">39家旅游单位违法被罚1800万 购物店结盟绕</a></li>
+            </ul>
+
+            <a class="cr_home-link" href="index.html">返回首页</a>
+        </div>
+    </main>
+
+    <!-- 外部引用 js 文件夹中的可复用选项卡脚本 -->
+    <script src="js/tab.js"></script>
+</body>
+</html>
