@@ -3,6 +3,7 @@ skills/
 
 # IDE 临时文件
 .trae-html-share-packages/
+.screenshots/
 
 # 系统文件
 Thumbs.db
