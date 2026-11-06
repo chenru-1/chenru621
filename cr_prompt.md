@@ -93,3 +93,11 @@
 ## 2026-11-04 15:50:30
 - 模型：GLM-5.3-Flash
 - 提示词：提交项目（按 skills/gitee-push 技能推送到 Gitee：8bfefa0 及此前仅推 GitHub 的 02baadb、87d79ce 一并同步）
+
+## 2026-11-06 10:20:00
+- 模型：GLM-5.3-Flash
+- 提示词：做任务4（Swiper 轮播任务书）：初始化 #wySw4 循环+自动播放 3.2s+圆点分页器 #wyPag4，初始 effect 'slide' 动画 800ms；进阶：6 个按钮（slide/fade/cube/coverflow/flip/cards）点击切换效果，Swiper 换 effect 需先 destroy 旧实例再 new 重建；验证标准为自动翻页与点击 cube/fade 切换效果
+
+## 2026-11-06 10:58:20
+- 模型：GLM-5.3-Flash
+- 提示词：提交到GitHub（推送 Swiper 任务 4：swiper-task.html、cdn/swiper 本地库、index.html 入口、提示词记录）

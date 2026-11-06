@@ -1,6 +1,9 @@
 # 本地技能文件（含私人令牌，禁止入库）
 skills/
 
+# Swiper 完整 npm 包（页面仅使用 cdn/swiper/ 内的两个 bundle 文件）
+/swiper/
+
 # IDE 临时文件
 .trae-html-share-packages/
 .screenshots/
