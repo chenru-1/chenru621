@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swiper 课堂操作任务 · 大国重器光影展 · 补全 JS</title>
-<!-- Swiper 官方组件库已通过 CDN 引入好，学生只需在底部 <script> 中写初始化代码 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!--
+    作者：陈茹
+    建立时间：2026-11-06
+    使用模型：GLM-5.3-Flash
+    功能名称：Swiper 轮播课堂任务（任务 1-4 与任务书三任务）
+-->
+<!-- Swiper 组件库已本地化（cdn/swiper/），jsdelivr 在本机不可达 -->
+<link rel="stylesheet" href="cdn/swiper/swiper-bundle.min.css">
+<script src="cdn/swiper/swiper-bundle.min.js"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#f6f8fc;color:#1f2937}
@@ -124,6 +130,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>2023 年商业首航 · 国产干线客机翱翔蓝天</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>10909 米 · 触碰地球第四极马里亚纳海沟</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>500 米口径 · 世界最大单口径射电望远镜</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adu_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>2024 年 1 月首航 · 国产首艘大型邮轮（AI 生成展品图 16:9）</p></div></div>
           </div>
         </div>
       </div>
@@ -152,6 +159,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>让中国人的大飞机梦照进现实</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>坐底万米 · 深海探测进入"中国时代"</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>南仁东先生 22 年铸就的观天巨目</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adu_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>海上移动城市 · 国产首艘大型邮轮首航</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag2"></div>
           <div class="swiper-button-prev" id="wyPrev2"></div>
@@ -183,6 +191,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>蓝天之上 · 大国担当</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>万米深潜 · 无畏探索</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>仰望星空 · 脚踏实地</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adu_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>乘风破浪 · 驶向深蓝</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag3"></div>
         </div>
@@ -210,6 +219,7 @@
       <button data-fx="coverflow">coverflow 画廊堆叠（沉浸）</button>
       <button data-fx="flip">flip 翻页（复古）</button>
       <button data-fx="cards">cards 卡片（俏皮）</button>
+      <button data-fx="creative">creative 电影（自创）</button>
     </div>
     <div class="wy-demo">
       <span class="wy-demo-tag">🎛️ 演示四 · 效果实验台（点按钮切换 effect）</span>
@@ -221,6 +231,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>企业官网爱用 fade</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>游戏网站爱用 cube</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>相册页面爱用 coverflow</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adu_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>邮轮也来试试七种效果</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag4"></div>
         </div>
@@ -228,7 +239,7 @@
     </div>
   </div>
 
-  <div class="wy-back"><a href="index.html">← 返回课堂实践中心</a>　<a href="swiper-lesson.html">查看教师讲解版 →</a></div>
+  <div class="wy-back"><a href="index.html">← 返回课堂实践中心</a>　<a href="swiper-notes.html">📄 任务对话记录（提示词入口）</a>　<a href="swiper-lesson.html">查看教师讲解版 →</a></div>
 
   <footer>Swiper 课堂操作任务 · 大国重器光影展（学生版） · 高级网页设计 · 2026-2027-1</footer>
 </div>
@@ -239,14 +250,17 @@
   // ══════════════════════════════════════════════════════════
 
   // ── 任务 1：初始化 #wySw1，让它至少可以拖动 ──
-  // TODO: 在这里写你的代码
-var swiper = new Swiper("#wySw1", {});
+  // 任务三第 ② 件事：加上课堂上没讲过的 keyboard 键盘控制（方向键翻页，仅轮播在可视区时生效）
+var swiper = new Swiper("#wySw1", {
+      keyboard: true,                            // 键盘 ←/→ 方向键控制翻页
+    });
 
   // ── 任务 2：初始化 #wySw2，循环 + 600ms + 圆点可点 + 箭头切换 ──
   // TODO: 在这里写你的代码
  var swiper = new Swiper("#wySw2", {
       speed:600,
       loop: true,
+      keyboard: true,                            // 键盘 ←/→ 方向键控制翻页
       pagination: {
         el: "#wyPag2",
         clickable: true,
@@ -260,6 +274,7 @@ var swiper = new Swiper("#wySw1", {});
   // ── 任务 3：初始化 #wySw3，循环 + 2.6 秒自动翻页 + 拖动后不停 + 圆点 ──
   // TODO: 在这里写你的代码
  var swiper = new Swiper("#wySw3", {
+      keyboard: true,                            // 键盘 ←/→ 方向键控制翻页
       autoplay: {
         delay: 2600,
         disableOnInteraction: false,
@@ -276,6 +291,7 @@ var cr_swiper4 = new Swiper("#wySw4", {
       loop: true,                                // 无缝循环
       speed: 800,                                // 切换动画时长 800 毫秒
       effect: "slide",                           // 初始效果：平推
+      keyboard: true,                            // 键盘 ←/→ 方向键控制翻页
       autoplay: {
         delay: 3200,                             // 每 3.2 秒自动翻页
         disableOnInteraction: false,             // 用户操作后自动播放不停止
@@ -300,10 +316,12 @@ var cr_swiper4 = new Swiper("#wySw4", {
       cr_swiper4.destroy(true, true);
 
       // TODO 3：用新 effect 重建实例（把其它配置原样保留）
-      cr_swiper4 = new Swiper("#wySw4", {
+      // cr_conf4：组装重建配置，所有效果共用基础参数
+      var cr_conf4 = {
         loop: true,
         speed: 800,
         effect: btn.dataset.fx,                  // 读取按钮 data-fx 指定的效果名
+        keyboard: true,                          // 重建后保留键盘控制
         autoplay: {
           delay: 3200,
           disableOnInteraction: false,
@@ -312,7 +330,16 @@ var cr_swiper4 = new Swiper("#wySw4", {
           el: "#wyPag4",
           clickable: true,
         },
-      });
+      };
+      // creative 电影效果：当前张向左平移 120% 并旋转 -18° 退场（prev 道具），
+      // 下一张从右侧 120% 处旋转 +18°（镜像角度）进场（next 道具），官方 creative 模块语法
+      if (btn.dataset.fx === "creative") {
+        cr_conf4.creativeEffect = {
+          prev: { shadow: true, translate: ["-120%", 0, -300], rotate: [0, 0, -18] },
+          next: { shadow: true, translate: ["120%", 0, -300], rotate: [0, 0, 18] },
+        };
+      }
+      cr_swiper4 = new Swiper("#wySw4", cr_conf4);
     });
   });
 </script>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiper 任务对话记录 · 与 AI 的关键往返（陈茹）</title>
+<!--
+    作者：陈茹
+    建立时间：2026-11-09
+    使用模型：GLM-5.3-Flash
+    功能名称：Swiper 任务书 AI 对话记录页（任务一提示词迭代 + 任务二 creative 仿写 + 任务三综合作答）
+-->
+<style>
+  /* 页面骨架样式，全部类名以 cr_ 前缀命名 */
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#f2f5fa;color:#1c2b3a;line-height:1.75}
+  .cr_wrap{max-width:880px;margin:0 auto;padding:34px 20px 60px}
+  .cr_head{background:linear-gradient(135deg,#0f2b5b,#1d5bbf);color:#fff;border-radius:14px;padding:26px 30px;margin-bottom:26px}
+  .cr_head h1{font-size:24px;letter-spacing:1px}
+  .cr_head p{margin-top:8px;font-size:14px;opacity:.85}
+  .cr_card{background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(15,43,91,.08);padding:24px 28px;margin-bottom:22px}
+  .cr_card h2{font-size:19px;color:#0f2b5b;border-left:4px solid #1d5bbf;padding-left:12px;margin-bottom:14px}
+  .cr_card h3{font-size:15px;margin:18px 0 8px;color:#1d5bbf}
+  .cr_tag{display:inline-block;font-size:12px;background:#e8f0fe;color:#1d5bbf;border-radius:20px;padding:2px 12px;margin-right:6px;margin-bottom:10px}
+  .cr_dialog{border:1px solid #dfe7f2;border-radius:10px;padding:16px 18px;margin:10px 0;background:#fbfdff}
+  .cr_dialog.cr_me{border-left:4px solid #1d5bbf}
+  .cr_dialog.cr_ai{border-left:4px solid #f2a93b;background:#fffdf7}
+  .cr_dialog.cr_warn{border-left:4px solid #e05a4e;background:#fef6f5}
+  .cr_dialog.cr_ok{border-left:4px solid #3aa76d;background:#f4fbf7}
+  .cr_role{font-size:13px;font-weight:bold;color:#55677d;margin-bottom:6px}
+  .cr_code{background:#122036;color:#d9e6ff;border-radius:8px;padding:14px 16px;font-family:Consolas,"Courier New",monospace;font-size:13px;overflow-x:auto;margin:10px 0;white-space:pre}
+  .cr_code b{color:#7fd0ff;font-weight:normal}
+  .cr_note{font-size:13px;color:#5c6b7d;background:#f4f7fb;border-radius:8px;padding:10px 14px;margin:8px 0}
+  .cr_answer{margin:8px 0 8px 0}
+  .cr_answer dt{font-weight:bold;color:#0f2b5b;margin-top:10px}
+  .cr_answer dd{margin:4px 0 0 1.2em;color:#33465c}
+  .cr_back{text-align:center;margin-top:8px}
+  .cr_back a{color:#1d5bbf;text-decoration:none;font-size:14px;border:1px solid #c6d5ea;border-radius:22px;padding:7px 20px;background:#fff}
+  .cr_back a:hover{background:#1d5bbf;color:#fff}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+  <header class="cr_head">
+    <h1>Swiper 任务 · 与 AI 的关键对话记录</h1>
+    <p>记录人：陈茹 · 使用模型 GLM-5.3-Flash · 交付时间 2026-11-09 · 配套运行页面见 <a href="swiper-task.html" style="color:#9cc4ff">swiper-task.html</a></p>
+  </header>
+
+  <!-- 任务一：提示词工程师 -->
+  <section class="cr_card">
+    <h2>任务一 · 提示词工程师：2 轮迭代翻译 wySw4 需求</h2>
+    <span class="cr_tag">无缝循环</span><span class="cr_tag">3.2s 自动翻页且手动不停</span><span class="cr_tag">圆点可点</span><span class="cr_tag">初始 cube</span>
+    <p style="font-size:14px;color:#5c6b7d">本任务不写代码，只把课堂需求翻译给 AI。每轮回答都亲自粘到页面里验证过。</p>
+
+    <h3>第 1 轮 · 初版提示词</h3>
+    <div class="cr_dialog cr_me">
+      <div class="cr_role">🧑‍💻 我（提示词）</div>
+      <p>请帮我写一份 Swiper 初始化代码：目标容器 #wySw4，要求无缝循环播放、每 3.2 秒自动翻页一次、底部圆点分页器且圆点可以点击跳转、初始切换效果为 cube 3D 立方体、切换动画时长 800 毫秒。</p>
+    </div>
+    <div class="cr_dialog cr_ai">
+      <div class="cr_role">🤖 AI 第 1 轮回答</div>
+      <div class="cr_code">new Swiper('#wySw4', {
+  <b>loop</b>: true,
+  <b>speed</b>: 800,
+  <b>effect</b>: 'cube',
+  <b>autoplay</b>: { delay: 3200 },          // ← 第 1 轮的隐患在这里
+  <b>pagination</b>: { el: '#wyPag4', clickable: true }
+});</div>
+    </div>
+    <div class="cr_dialog cr_warn">
+      <div class="cr_role">🔍 我的第一轮验证（粘到页面实测）</div>
+      <p>结论：<b>自动翻页和圆点没问题，但第 ② 条“手动操作后不停”不满足</b>——用鼠标拖过轮播一次后，轮播就再也不自己翻了。原因是 autoplay 默认 disableOnInteraction: true，用户一碰就永久停播。需要返工第 2 轮。</p>
+    </div>
+
+    <h3>第 2 轮 · 修正提示词（点名要害）</h3>
+    <div class="cr_dialog cr_me">
+      <div class="cr_role">🧑‍💻 我（提示词）</div>
+      <p>你上一轮的代码有一个 bug：用户拖动轮播之后，自动播放就永远停止了。请修正——要求用户手动滑动/点击之后，自动播放必须继续，不能停；其余要求不变（#wySw4、无缝循环、3.2 秒间隔、圆点可点、初始 cube、800 毫秒）。</p>
+    </div>
+    <div class="cr_dialog cr_ai">
+      <div class="cr_role">🤖 AI 第 2 轮回答</div>
+      <div class="cr_code">new Swiper('#wySw4', {
+  loop: true,
+  speed: 800,
+  effect: 'cube',
+  autoplay: {
+    delay: 3200,
+    <b>disableOnInteraction: false</b>       // ← 关键修正
+  },
+  pagination: { el: '#wyPag4', clickable: true }
+});</div>
+    </div>
+    <div class="cr_dialog cr_ok">
+      <div class="cr_role">🔍 我的第二轮验证</div>
+      <p>结论：<b>全部通过</b>——手动拖动、点圆点之后再等 3.2 秒，轮播照常自己翻页；循环无缝、cube 立方体效果正常。最终代码已实际写进 swiper-task.html 任务 4。</p>
+    </div>
+    <div class="cr_note">💡 经验：AI 第一次最容易漏掉 disableOnInteraction 这个参数。提示词里把“手动操作后仍要继续播放”单独强调成一条硬性要求，就能逼 AI 把它写全。</div>
+  </section>
+
+  <!-- 任务二：creative 仿写 -->
+  <section class="cr_card">
+    <h2>任务二 · creative 自创变换：电影片场效果</h2>
+    <span class="cr_tag">官方 demo 257 仿写</span><span class="cr_tag">第 7 个按钮已上线</span>
+    <p style="font-size:14px">读懂官方 <code>effect-creative</code> 演示后自创“电影”效果：当前卡片像片尾字幕一样<b>向左移出屏幕并带角度退场</b>，下一张<b>从右侧带着镜像角度滑入</b>，像电影里剪辑转场。数字自定：平移 120%（保证完全出画）、z 轴旋转 ±18°、加投影增加层次。</p>
+    <div class="cr_code">creativeEffect: {
+  prev: { shadow: true, translate: ['-120%', 0, -300], rotate: [0, 0, -18] },  // 退场：左移 + 左倾
+  next: { shadow: true, translate: [ '120%', 0, -300], rotate: [0, 0,  18] }   // 进场：右入 + 右倾（镜像）
+}</div>
+    <div class="cr_note">💡 prev 控制“当前这张离开时怎么动”，next 控制“下一张进来时从哪儿来”。translate 数组是 [x 轴， y 轴， z 轴]（像素或百分比），rotate 是 [x, y, z] 三轴角度（度）。</div>
+  </section>
+
+  <!-- 任务三：综合作答 -->
+  <section class="cr_card">
+    <h2>任务三 · 综合作答：新展品 + 新能力</h2>
+    <span class="cr_tag">第 6 展品：爱达·魔都号</span><span class="cr_tag">keyboard 键盘控制</span>
+
+    <h3>初始提示词</h3>
+    <div class="cr_dialog cr_me">
+      <div class="cr_role">🧑‍💻 我（提示词）</div>
+      <p>两件事：① 为光影展添加第 6 件展品“爱达·魔都号”（2024 年 1 月首航的国产首艘大型邮轮），展品图用 AI 生成，横版 16:9，slide 结构与其它展品一致（图 + 标题说明条）；② 挑一个课堂上没讲过的 Swiper 能力加上：keyboard 键盘控制 / mousewheel 滚轮 / zoom 双击缩放 / parallax 视差，四选一。</p>
+    </div>
+    <div class="cr_dialog cr_ai">
+      <div class="cr_role">🤖 AI 第 1 轮回答</div>
+      <p>生成邮轮展品图 swiper-imgs/adu_1.jpg（16:9），把展品 slide 加进 #wySw1 光影展轮播；新能力选用 keyboard，给 #wySw1 加上 keyboard: true。展品说明条与其它展品风格一致。</p>
+    </div>
+
+    <h3>追加往返 1 · 展品覆盖面</h3>
+    <div class="cr_dialog cr_me">
+      <div class="cr_role">🧑‍💻 我（提示词）</div>
+      <p>第六件展品每一个动画上面都要有。</p>
+    </div>
+    <div class="cr_dialog cr_ai">
+      <div class="cr_role">🤖 AI 回答</div>
+      <p>把爱达·魔都号 slide 补进全部四个轮播 #wySw1–#wySw4，每个轮播的说明文案按各自风格单独写（如“海上移动城市 · 国产首艘大型邮轮首航”“乘风破浪 · 驶向深蓝”“邮轮也来试试七种效果”）。实测四轮播均为 6 张展品。</p>
+    </div>
+
+    <h3>追加往返 2 · 键盘控制覆盖面</h3>
+    <div class="cr_dialog cr_me">
+      <div class="cr_role">🧑‍💻 我（提示词）</div>
+      <p>键盘控制也加上。</p>
+    </div>
+    <div class="cr_dialog cr_ai">
+      <div class="cr_role">🤖 AI 回答</div>
+      <p>keyboard: true 加进四个轮播的初始化配置；特别注意 #wySw4 切换效果是“销毁旧实例再重建”，重建配置 cr_conf4 里也必须保留 keyboard，否则一点效果按钮键盘控制就丢了。</p>
+    </div>
+
+    <div class="cr_note">💡 最终成果：四个轮播均为 6 件展品 + 方向键翻页；#wySw1 配置 new Swiper("#wySw1", { keyboard: true })，方向键 ←/→ 即可翻页，实测有效。</div>
+  </section>
+
+  <div class="cr_back">
+    <a href="index.html">← 返回首页</a>　<a href="swiper-task.html">查看运行页面 →</a>
+  </div>
+</div>
+</body>
+</html>
