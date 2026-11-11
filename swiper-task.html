@@ -4,9 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Swiper 课堂操作任务 · 大国重器光影展 · 补全 JS</title>
-<!-- Swiper 官方组件库已通过 CDN 引入好，学生只需在底部 <script> 中写初始化代码 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!--
+    作者：陈茹
+    建立时间：2026-11-11
+    使用模型：GLM-5.3-Flash
+    功能名称：Swiper 课堂操作任务·大国重器光影展（含任务一·提示词工程师报告嵌入）
+-->
+<!-- Swiper 组件库已本地化到 cdn/swiper/（本机无法访问 jsdelivr CDN），学生只需在底部 <script> 中写初始化代码 -->
+<link rel="stylesheet" href="cdn/swiper/swiper-bundle.min.css">
+<script src="cdn/swiper/swiper-bundle.min.js"></script>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#f6f8fc;color:#1f2937}
@@ -81,6 +87,50 @@
   .wy-back a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,43,91,.15)}
 
   footer{text-align:center;margin-top:34px;color:#9ca3af;font-size:13px;line-height:2}
+
+  /* ── 任务一·提示词工程师（嵌入区）样式 ── */
+  .cr_card{background:#fff;border-radius:14px;padding:26px 30px;margin:16px 0;box-shadow:0 4px 16px rgba(31,41,55,.08)}
+  .cr_card h2{font-size:19px;color:#0f2b5b;margin-bottom:12px;border-left:4px solid #1d5bbf;padding-left:10px}
+  .cr_card h3{font-size:16px;color:#1d5bbf;margin:16px 0 8px}
+  .cr_req{background:#fffbe6;border:1px dashed #e6a817;border-radius:10px;padding:14px 18px;font-size:14px}
+  .cr_req ol{margin:8px 0 0 22px}
+  .cr_req .cr_hard{margin-top:8px;color:#8a6100}
+  .cr_prompt-box{background:#f2f6ff;border:1px solid #c9d9f5;border-radius:10px;padding:14px 18px;font-family:Consolas,Menlo,monospace;font-size:13.5px;white-space:pre-wrap;word-break:break-all;color:#1f2937}
+  pre.cr_code{background:#0f2244;color:#d8e4ff;border-radius:10px;padding:16px 18px;font-family:Consolas,Menlo,monospace;font-size:13.5px;overflow-x:auto;margin:10px 0}
+  pre.cr_code .cr_ok{color:#7ce38b}
+  pre.cr_code .cr_no{color:#ff9c9c}
+  pre.cr_code .cr_cm{color:#8fa8d8}
+  .cr_table{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0 6px}
+  .cr_table th{background:#eef3fb;color:#0f2b5b;padding:9px 10px;border:1px solid #d4dff0;text-align:left}
+  .cr_table td{padding:9px 10px;border:1px solid #e2e9f5;vertical-align:top}
+  .cr_pass{color:#157a3a;font-weight:bold}
+  .cr_fail{color:#c0222b;font-weight:bold}
+  .cr_conclude{background:#eefaf1;border-left:4px solid #2e9e5b;border-radius:8px;padding:12px 16px;font-size:14.5px;margin-top:12px}
+  .cr-demo-sw{width:100%;height:230px;border-radius:10px;overflow:hidden;position:relative}
+  .cr-demo-sw .swiper-slide{position:relative}
+  .cr-demo-sw img{width:100%;height:100%;object-fit:cover;display:block}
+  .cr-demo-cap{position:absolute;left:0;bottom:0;right:0;background:linear-gradient(transparent,rgba(6,16,38,.8));color:#fff;padding:30px 16px 10px;font-size:13px}
+  .cr-demo-cap b{font-size:16px;display:block}
+  .cr-demo-sw .swiper-pagination-bullet{width:11px;height:11px}
+  .cr-demo-sw .swiper-pagination-bullet-active{background:#e6a817}
+  .cr-demo-btns{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px}
+  .cr-demo-btns button{border:1px solid #c9d9f5;background:#fff;color:#1d5bbf;border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer}
+  .cr-demo-btns button:hover{background:#eef3fb}
+  .cr-stat{background:#fff;border-radius:8px;padding:10px 14px;font-size:13px;margin-top:10px;line-height:1.9;min-height:96px}
+  .cr-good{color:#157a3a}
+  .cr-bad{color:#c0222b}
+  .cr-diagnose{border-radius:10px;padding:12px 16px;font-size:13.5px;margin-top:12px}
+  .cr-diagnose h4{font-size:14.5px;margin-bottom:6px}
+  .cr-diagnose ul{margin:0 0 0 20px}
+  .cr-diagnose-wrong{background:#fdf0f0;border:1px solid #f2c4c7;color:#8c1f26}
+  .cr-diagnose-wrong h4{color:#c0222b}
+  .cr-diagnose-right{background:#eefaf1;border:1px solid #bfe6cc;color:#155c30}
+  .cr-diagnose-right h4{color:#157a3a}
+  .cr_shot-figure{margin:14px 0 4px;text-align:center}
+  .cr_shot-figure img{max-width:100%;border:1px solid #d4dff0;border-radius:10px;box-shadow:0 4px 14px rgba(31,41,55,.12)}
+  .cr_shot-figure figcaption{font-size:13px;color:#6b7a99;margin-top:8px}
+  .cr_insight{font-size:15px}
+  .cr_insight b{color:#c0222b}
 </style>
 </head>
 <body>
@@ -124,6 +174,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>2023 年商业首航 · 国产干线客机翱翔蓝天</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>10909 米 · 触碰地球第四极马里亚纳海沟</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>500 米口径 · 世界最大单口径射电望远镜</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/aidahao_1_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>13.55 万总吨 · 首艘国产大型邮轮，2024 年 1 月首航</p></div></div>
           </div>
         </div>
       </div>
@@ -152,6 +203,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>让中国人的大飞机梦照进现实</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>坐底万米 · 深海探测进入"中国时代"</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>南仁东先生 22 年铸就的观天巨目</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/aidahao_1_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>2024 年 1 月 1 日首航 · 国产大型邮轮扬帆起航</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag2"></div>
           <div class="swiper-button-prev" id="wyPrev2"></div>
@@ -183,6 +235,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>蓝天之上 · 大国担当</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>万米深潜 · 无畏探索</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>仰望星空 · 脚踏实地</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/aidahao_1_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>邮轮出海 · 中国制造新高度</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag3"></div>
         </div>
@@ -210,6 +263,7 @@
       <button data-fx="coverflow">coverflow 画廊堆叠（沉浸）</button>
       <button data-fx="flip">flip 翻页（复古）</button>
       <button data-fx="cards">cards 卡片（俏皮）</button>
+      <button data-fx="creative">🎬 creative 电影墙（任务二）</button>
     </div>
     <div class="wy-demo">
       <span class="wy-demo-tag">🎛️ 演示四 · 效果实验台（点按钮切换 effect）</span>
@@ -221,6 +275,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>企业官网爱用 fade</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>游戏网站爱用 cube</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>相册页面爱用 coverflow</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/aidahao_1_1.jpg" alt="爱达·魔都号"><div class="wy-cap"><h3>爱达·魔都号</h3><p>第六件展品 · 键盘 ← → 也能翻页</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag4"></div>
         </div>
@@ -228,7 +283,149 @@
     </div>
   </div>
 
-  <div class="wy-back"><a href="index.html">← 返回课堂实践中心</a>　<a href="swiper-lesson.html">查看教师讲解版 →</a></div>
+  <!-- ── 任务一 · 提示词工程师：让 AI 听懂需求（嵌入区） ── -->
+  <section class="cr_card">
+    <h2>任务一 · 提示词工程师：让 AI 听懂需求</h2>
+    <div class="cr_req">
+      把下面需求"翻译"给 AI，让它生成 <b>new Swiper('#wySw4', {...})</b> 配置：
+      <ol>
+        <li>无缝循环</li>
+        <li>3.2 秒自动翻页，且手动操作后不停止</li>
+        <li>圆点分页器可点击</li>
+        <li>初始效果为 cube</li>
+      </ol>
+      <div class="cr_hard">硬性要求：至少迭代 2 轮提示词（第 1 轮 AI 答案大概率有遗漏或错误）；保留每轮提示词与 AI 回答；亲自粘进页面验证每项需求，用截图 + 一句话结论说明验证结果。</div>
+    </div>
+  </section>
+
+  <section class="cr_card">
+    <h2>第 1 轮 · 初版提示词（写得比较随意）</h2>
+    <div class="cr_prompt-box">用 Swiper 11 给 id 为 wySw4 的轮播写初始化代码：循环播放，3.2 秒自动切换一次，分页器用 #wyPag4，切换效果用 cube。</div>
+    <h3>第 1 轮 AI 回答</h3>
+<pre class="cr_code">new Swiper('#wySw4', {
+  loop: true,                            <span class="cr_cm">// ① 无缝循环 —— 满足</span>
+  autoplay: 3200,                        <span class="cr_no">// ② 数字简写：没有 disableOnInteraction，手动一拖就停 —— 不满足</span>
+  pagination: { el: '#wyPag4' },         <span class="cr_no">// ③ 没有 clickable: true，圆点点不动 —— 不满足</span>
+  effect: 'cube'                         <span class="cr_cm">// ④ 3D 立方体 —— 满足</span>
+});</pre>
+    <h3>第 1 轮粘贴进页面验证</h3>
+    <table class="cr_table">
+      <tr><th>需求</th><th>验证证据</th><th>结论</th></tr>
+      <tr><td>① 无缝循环</td><td>loop: true</td><td class="cr_pass">✓ 通过</td></tr>
+      <tr><td>② 手动后不停</td><td>autoplay 只是数字 3200；<b>鼠标真实拖拽后 autoplayRunning: false，自动播放停止</b></td><td class="cr_fail">✗ 不满足</td></tr>
+      <tr><td>③ 圆点可点击</td><td>clickable: false，分页器无 swiper-pagination-clickable 类，圆点渲染为 span，点击无反应</td><td class="cr_fail">✗ 不满足</td></tr>
+      <tr><td>④ cube 效果</td><td>effect: 'cube'</td><td class="cr_pass">✓ 通过</td></tr>
+    </table>
+    <div class="cr-demo" style="border:1px solid #d4dff0;border-radius:12px;background:#f8fafd;padding:16px;margin:14px 0 6px">
+      <div style="font-size:14px;color:#0f2b5b;font-weight:bold;margin-bottom:10px">活体演示：第 1 轮 AI 答案原样粘进真实轮播（可亲手操作，看它错在哪里）</div>
+      <div class="swiper cr-demo-sw" id="crDemo1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站"><div class="cr-demo-cap"><b>天宫空间站</b>中国载人航天工程 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fuxing_1.jpg" alt="复兴号动车组"><div class="cr-demo-cap"><b>复兴号动车组</b>中国高铁 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="cr-demo-cap"><b>C919 大飞机</b>国产大飞机 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号潜水器"><div class="cr-demo-cap"><b>奋斗者号潜水器</b>万米深潜 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="cr-demo-cap"><b>中国天眼 FAST</b>世界最大单口径射电望远镜</div></div>
+        </div>
+        <div class="swiper-pagination" id="crDemoPag1"></div>
+      </div>
+      <div class="cr-demo-btns">
+        <button type="button" id="crBtn1">🖱 模拟手动拖拽</button>
+        <button type="button" id="crBtn3">🔘 模拟点击第 3 个圆点</button>
+        <span style="font-size:12.5px;color:#6b7a99;align-self:center">（也可以直接用鼠标按住轮播拖）</span>
+      </div>
+      <div class="cr-stat" id="crStat1">正在读取实例状态…</div>
+      <div class="cr-diagnose cr-diagnose-wrong">
+        <h4>❌ 第 1 轮答案错在哪里？</h4>
+        <ul>
+          <li><b>错误 1 · autoplay 写成数字 3200：</b>少了 <code>disableOnInteraction: false</code>，Swiper 默认"手动操作即停止"。点上方【模拟手动拖拽】（或直接用鼠标拖轮播），看状态面板：自动播放变 <span class="cr-bad">stopped</span>，之后 3.2 秒自动翻页再也没有了。</li>
+          <li><b>错误 2 · pagination 少了 <code>clickable: true</code>：</b>圆点是普通 span、没绑定跳页监听。点【模拟点击第 3 个圆点】，页面纹丝不动——圆点根本点不动。</li>
+          <li>（loop: true 和 effect: 'cube' 这两项倒是对的）</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="cr_shot-figure">
+      <img src="prompt-imgs/r1.png" alt="第 1 轮 AI 答案页面效果图：自动播放停止、圆点为 SPAN 不可点击">
+      <figcaption>第 1 轮 AI 答案粘贴进页面的实际效果图：当前自动播放 stopped（自动翻页已停止）、disableOnInteraction 为 undefined、分页圆点为 SPAN 且 clickable 类 false——圆点点不动</figcaption>
+    </figure>
+    <div class="cr_conclude"><b>一句话结论：</b>第 1 轮答案只满足了①④——autoplay 数字简写导致手动一拖就停、分页器圆点根本点不动，需求②③全部落空。</div>
+  </section>
+
+  <section class="cr_card">
+    <h2>第 2 轮 · 迭代改进提示词（把每条需求"翻译"成配置语言）</h2>
+    <div class="cr_prompt-box">请使用 Swiper 11 为我编写轮播初始化代码。页面中已有轮播容器
+&lt;div class="swiper" id="wySw4"&gt;（内含 5 个 swiper-slide），分页器容器为
+&lt;div class="swiper-pagination" id="wyPag4"&gt;。请生成 new Swiper('#wySw4', {...}) 配置，
+必须同时满足以下 4 条需求：
+
+1. 轮播无缝循环播放，最后一张翻完直接接回第一张，不出现回跳空白；
+2. 每 3.2 秒自动翻页，并且用户手动拖拽或点击切换之后自动播放不能停止，要继续轮播；
+3. 分页器渲染为小圆点样式，且每个圆点可以点击，点击后直接跳到对应页；
+4. 初始切换效果使用 3D 立方体（cube）。
+
+输出要求：只输出一段完整可运行的 new Swiper 代码块，每个配置项后面用行注释标明
+它对应上面第几条需求，不要输出多余解释。</div>
+    <h3>第 2 轮 AI 回答</h3>
+<pre class="cr_code">new Swiper('#wySw4', {
+  loop: true,                                              <span class="cr_cm">// 需求①：无缝循环</span>
+  autoplay: {
+    delay: 3200,                                           <span class="cr_cm">// 需求②：每 3.2 秒自动翻页</span>
+    disableOnInteraction: false                            <span class="cr_ok">// 需求②：手动拖拽/点击后自动播放继续，不停止</span>
+  },
+  pagination: {
+    el: '#wyPag4',                                         <span class="cr_cm">// 需求③：圆点分页器渲染到指定容器</span>
+    clickable: true                                        <span class="cr_ok">// 需求③：圆点可点击，直接跳到对应页</span>
+  },
+  effect: 'cube'                                           <span class="cr_cm">// 需求④：初始切换效果为 3D 立方体</span>
+});</pre>
+    <h3>第 2 轮粘贴进页面验证</h3>
+    <table class="cr_table">
+      <tr><th>需求</th><th>验证证据</th><th>结论</th></tr>
+      <tr><td>① 无缝循环</td><td>loop: true</td><td class="cr_pass">✓ 通过</td></tr>
+      <tr><td>② 手动后不停</td><td><b>鼠标真实拖拽后 autoplayRunning: true，自动播放继续</b>；点击圆点跳页后 3.2 秒内又自动翻到下一页</td><td class="cr_pass">✓ 通过</td></tr>
+      <tr><td>③ 圆点可点击</td><td>分页器带 swiper-pagination-clickable 类，圆点渲染为 button "Go to slide N"；<b>点击第 1 个圆点后 realIndex: 0 跳页成功</b></td><td class="cr_pass">✓ 通过</td></tr>
+      <tr><td>④ cube 效果</td><td>effect: 'cube'，切换时呈 3D 立方体旋转（静止时正面为平面属正常表现）</td><td class="cr_pass">✓ 通过</td></tr>
+    </table>
+    <div style="border:1px solid #d4dff0;border-radius:12px;background:#f8fafd;padding:16px;margin:14px 0 6px">
+      <div style="font-size:14px;color:#0f2b5b;font-weight:bold;margin-bottom:10px">活体演示：第 2 轮 AI 答案原样粘进真实轮播（同样的操作，这次全对了）</div>
+      <div class="swiper cr-demo-sw" id="crDemo2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站"><div class="cr-demo-cap"><b>天宫空间站</b>中国载人航天工程 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fuxing_1.jpg" alt="复兴号动车组"><div class="cr-demo-cap"><b>复兴号动车组</b>中国高铁 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="cr-demo-cap"><b>C919 大飞机</b>国产大飞机 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号潜水器"><div class="cr-demo-cap"><b>奋斗者号潜水器</b>万米深潜 · 大国重器</div></div>
+          <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="cr-demo-cap"><b>中国天眼 FAST</b>世界最大单口径射电望远镜</div></div>
+        </div>
+        <div class="swiper-pagination" id="crDemoPag2"></div>
+      </div>
+      <div class="cr-demo-btns">
+        <button type="button" id="crBtn2">🖱 模拟手动拖拽</button>
+        <button type="button" id="crBtn4">🔘 模拟点击第 3 个圆点</button>
+        <span style="font-size:12.5px;color:#6b7a99;align-self:center">（拖完看状态：依然 running…，且 3.2 秒后继续自动翻页）</span>
+      </div>
+      <div class="cr-stat" id="crStat2">正在读取实例状态…</div>
+      <div class="cr-diagnose cr-diagnose-right">
+        <h4>✅ 第 2 轮答案对在哪里？</h4>
+        <ul>
+          <li><b>disableOnInteraction: false：</b>点【模拟手动拖拽】——拖完状态面板依然是 <span class="cr-good">running…</span>，3.2 秒后继续自动翻页，手动操作完全不影响轮播。</li>
+          <li><b>clickable: true：</b>点【模拟点击第 3 个圆点】——轮播立刻跳到第 3 页，且自动播放不中断。</li>
+          <li><b>loop: true + effect: 'cube'：</b>无缝循环、3D 立方体初始效果同时成立，四条需求全部满足。</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="cr_shot-figure">
+      <img src="prompt-imgs/r2.png" alt="第 2 轮 AI 答案页面效果图：cube 3D 立方体、自动播放持续、圆点可点击">
+      <figcaption>第 2 轮 AI 答案粘贴进页面的实际效果图：轮播呈 cube 3D 立方体效果、当前自动播放 running…（持续翻页）、disableOnInteraction 为 false（手动操作后继续播放）、分页圆点 SPAN 带 role=button 且 clickable 类 true——圆点可点击跳页</figcaption>
+    </figure>
+    <div class="cr_conclude"><b>一句话结论：</b>第 2 轮四条需求全部满足，手动拖拽、圆点点击均不影响 3.2 秒自动轮播持续进行。</div>
+  </section>
+
+  <section class="cr_card cr_insight">
+    <h2>提示词工程心得</h2>
+    <p>两轮答案的差异核心在一句话：第 1 轮只说"3.2 秒自动切换"，AI 给出 <b>autoplay: 3200 数字简写</b>（默认手动操作即停止）；第 2 轮把"手动操作后<b>不能停止</b>"明确写进需求，AI 才会生成 <b>disableOnInteraction: false</b>。</p>
+    <p style="margin-top:8px"><b>结论：把反直觉的边界行为显式写进提示词，是让 AI 听懂需求的关键。</b></p>
+  </section>
+
+  <div class="wy-back"><a href="index.html">← 返回课堂实践中心</a>　<a href="prompt.md">📄 查看 prompt.md（与 AI 的对话记录）</a>　<a href="swiper-lesson.html">查看教师讲解版 →</a></div>
 
   <footer>Swiper 课堂操作任务 · 大国重器光影展（学生版） · 高级网页设计 · 2026-2027-1</footer>
 </div>
@@ -276,6 +473,10 @@ var cr_swiper4 = new Swiper("#wySw4", {
       loop: true,                                // 无缝循环
       speed: 800,                                // 切换动画时长 800 毫秒
       effect: "slide",                           // 初始效果：平推
+      keyboard: {
+        enabled: true,                           // 任务三：开启键盘方向键控制（超纲能力）
+        onlyInViewport: true,                    // 只在轮播进入可视区域时响应，避免与页面其它轮播冲突
+      },
       autoplay: {
         delay: 3200,                             // 每 3.2 秒自动翻页
         disableOnInteraction: false,             // 用户操作后自动播放不停止
@@ -300,10 +501,15 @@ var cr_swiper4 = new Swiper("#wySw4", {
       cr_swiper4.destroy(true, true);
 
       // TODO 3：用新 effect 重建实例（把其它配置原样保留）
-      cr_swiper4 = new Swiper("#wySw4", {
+      var cr_fx = btn.dataset.fx;                // 读取按钮 data-fx 指定的效果名
+      var cr_cfg = {
         loop: true,
         speed: 800,
-        effect: btn.dataset.fx,                  // 读取按钮 data-fx 指定的效果名
+        effect: cr_fx,
+        keyboard: {
+          enabled: true,                         // 任务三：重建后保留键盘控制（切 effect 不失效）
+          onlyInViewport: true,
+        },
         autoplay: {
           delay: 3200,
           disableOnInteraction: false,
@@ -312,9 +518,32 @@ var cr_swiper4 = new Swiper("#wySw4", {
           el: "#wyPag4",
           clickable: true,
         },
-      });
+      };
+      // 任务二·creative 电影墙：参照官方示例 257-effect-creative 的 creativeEffect 写法
+      // prev：上一张缩小左移带角度；next：下一张放大右移进场——一左一右像电影选片墙
+      if (cr_fx === 'creative') {
+        cr_cfg.creativeEffect = {
+          prev: {
+            shadow: true,                        // 上一张带投影，立体感
+            translate: ['-70%', 0, -260],        // x 左移 70%、y 不动、z 远离镜头（缩小）
+            rotate: [0, 0, -10],                 // 绕 z 轴左倾 10 度
+            opacity: 0.35,                       // 变暗，像退到墙后
+          },
+          next: {
+            shadow: true,                        // 下一张带投影
+            translate: ['70%', 0, 180],          // x 右移 70%、z 贴近镜头（放大进场）
+            rotate: [0, 0, 8],                   // 绕 z 轴右倾 8 度
+            opacity: 0.6,                        // 半透明，进场后恢复
+          },
+          limitProgress: 1,                      // 只渲染相邻两张，保证"一左一右"的电影墙布局
+          shadowPerProgress: true,               // 投影随进度加深
+        };
+      }
+      cr_swiper4 = new Swiper("#wySw4", cr_cfg);
     });
   });
 </script>
+<!-- 任务一·提示词工程师嵌入区的活体演示脚本（两轮 AI 答案真实运行） -->
+<script src="js/prompt-task.js"></script>
 </body>
 </html>
