@@ -8,14 +8,12 @@
  *       无传感器/无数据时显示"当前设备不支持"并提供按钮降级；iOS 13+ 用按钮申请权限。
  */
 
-// 变量：cr_DISHES —— 菜谱池（摇一摇/手抽共用的候选菜）
+// 变量：cr_DISHES —— 菜谱池（摇一摇/手抽共用的候选菜，带本地食物照片）
 var cr_DISHES = [
-  { emoji: '🦆', name: '北京烤鸭', desc: '皮脆肉嫩、肥而不腻，配薄饼葱丝甜面酱，今日就吃它！' },
-  { emoji: '🌶️', name: '麻婆豆腐', desc: '麻辣鲜香烫，豆腐嫩滑红油亮，下饭一绝。' },
-  { emoji: '🥟', name: '小笼包', desc: '轻轻提、慢慢移、先开窗、后喝汤。' },
-  { emoji: '🍲', name: '佛跳墙', desc: '坛启荤香飘四邻，今日给自己加个硬菜。' },
-  { emoji: '🥘', name: '四川火锅', desc: '毛肚鸭肠七上八下，辣得直哈气才过瘾。' },
-  { emoji: '🍡', name: '糖葫芦', desc: '酸甜脆口，饭后小甜蜜安排上。' }
+  { img: 'mobile-imgs/kaoya.jpg', name: '北京烤鸭', desc: '皮脆肉嫩、肥而不腻，配薄饼葱丝甜面酱，今日就吃它！' },
+  { img: 'mobile-imgs/mapodoufu.jpg', name: '麻婆豆腐', desc: '麻辣鲜香烫，豆腐嫩滑红油亮，下饭一绝。' },
+  { img: 'mobile-imgs/xiaolongbao.jpg', name: '小笼包', desc: '轻轻提、慢慢移、先开窗、后喝汤。' },
+  { img: 'mobile-imgs/fotiaoqiang.jpg', name: '佛跳墙', desc: '坛启荤香飘四邻，今日给自己加个硬菜。' }
 ];
 
 // 变量：cr_THRESHOLD —— 摇动判定阈值：合成加速度超过它才算摇动
@@ -46,10 +44,10 @@ function cr_drawDish() {
   // 先清除动画状态，为重新触发做准备
   cr_box.classList.remove('cr_pop');
   void cr_box.offsetWidth;                                 // 强制重排：让动画可以重复播放
-  // 换成抽中的菜
+  // 换成抽中的菜（照片 + 菜名 + 简介）
   cr_box.innerHTML =
     '<div class="cr_popbox">' +
-    '<div class="cr_emoji">' + cr_d.emoji + '</div>' +
+    '<img class="cr_img" src="' + cr_d.img + '" alt="' + cr_d.name + '">' +
     '<h2>' + cr_d.name + '</h2>' +
     '<p>' + cr_d.desc + '</p>' +
     '</div>';
