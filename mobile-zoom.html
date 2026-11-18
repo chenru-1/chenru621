@@ -52,6 +52,12 @@
   .cr_note h3{font-size:15px;color:#7cc4ff;margin-bottom:8px}
   .cr_note b{color:#e7ecf7}
 
+  /* 演示视频 */
+  .cr_video-sec{margin-top:26px}
+  .cr_video-sec h3{color:#7cc4ff;font-size:16px;margin-bottom:10px}
+  .cr_video{width:100%;max-width:560px;display:block;margin:0 auto;border-radius:14px;border:1px solid #1d2740;box-shadow:0 10px 26px rgba(0,0,0,.5);background:#000}
+  .cr_video-sec p{text-align:center;color:#5f7295;font-size:13px;margin-top:8px}
+
   /* 返回首页 */
   .cr_back{text-align:center;margin-top:26px}
   .cr_back a{display:inline-block;text-decoration:none;color:#7cc4ff;font-size:14px;font-weight:bold;border:1px solid rgba(124,196,255,.45);border-radius:999px;padding:10px 26px}
@@ -92,6 +98,13 @@
     orientationchange / resize 只重新夹紧边界、<b>不清空状态</b>，旋转屏幕后不丢失。
     <br><br>
     <b>加分项：</b>双指旋转（Math.atan2 算两指连线角度差并累加）+ 左上角缩放/角度实时指示器。
+  </div>
+
+  <!-- 操作演示视频 -->
+  <div class="cr_video-sec">
+    <h3>🎬 操作演示视频</h3>
+    <video class="cr_video" src="任务三.mp4" controls playsinline preload="metadata"></video>
+    <p>双指捏合缩放 · 双指旋转 · 双击切换 1x/2x · 单指拖动看细节</p>
   </div>
 
   <!-- 返回首页 -->

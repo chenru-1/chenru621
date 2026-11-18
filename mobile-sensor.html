@@ -61,6 +61,12 @@
   .cr_note h3{font-size:15px;color:#b6e356;margin-bottom:8px}
   .cr_note b{color:#f0f4e4}
 
+  /* 演示视频 */
+  .cr_video-sec{margin-top:26px}
+  .cr_video-sec h3{color:#b6e356;font-size:16px;margin-bottom:10px}
+  .cr_video{width:100%;max-width:560px;display:block;margin:0 auto;border-radius:14px;border:1px solid #2c3d1a;box-shadow:0 10px 26px rgba(0,0,0,.5);background:#000}
+  .cr_video-sec p{text-align:center;color:#7a8f5c;font-size:13px;margin-top:8px}
+
   /* 返回首页 */
   .cr_back{text-align:center;margin-top:26px}
   .cr_back a{display:inline-block;text-decoration:none;color:#b6e356;font-size:14px;font-weight:bold;border:1px solid rgba(182,227,86,.45);border-radius:999px;padding:10px 26px}
@@ -104,6 +110,13 @@
     摇一摇选 <b>accelerationIncludingGravity</b>：静止基线 9.8 已知，用力摇动时合成值会瞬间冲过 18，
     阈值判断直观可靠；就算陀螺仪校准不准也不影响。<b>降级</b>则保证没有传感器的设备不报错不白屏，
     还能用按钮手动抽。触发后有 1.5 秒冷却，一次摇动（连续多个超阈值采样）只抽一次。
+  </div>
+
+  <!-- 操作演示视频 -->
+  <div class="cr_video-sec">
+    <h3>🎬 操作演示视频</h3>
+    <video class="cr_video" src="任务四.mp4" controls playsinline preload="metadata"></video>
+    <p>摇一摇抽出今日菜谱 · 食物照片弹出 · 冷却防重复触发</p>
   </div>
 
   <!-- 返回首页 -->
