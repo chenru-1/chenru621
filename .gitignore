@@ -12,6 +12,9 @@ skills/
 Thumbs.db
 Desktop.ini
 
+# db 数据服务器依赖（npm 安装产物，不入库）
+db/node_modules/
+
 # Build and Release Folders
 bin-debug/
 bin-release/

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹　学号：24002120621
+    建立时间：2026-11-18
+    使用模型：GLM-5.3-Flash
+    功能名称：移动端触摸事件课堂实践任务书——四个递进任务总入口
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动端触摸事件 · 课堂实践任务书（四关递进）</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#0f1220;color:#e7ecf7;line-height:1.8}
+  .cr_wrap{max-width:860px;margin:0 auto;padding:30px 18px 60px}
+
+  /* 页头 */
+  .cr_head{background:linear-gradient(135deg,#1b2352,#5a3fd4);border-radius:18px;padding:30px 32px;color:#fff;margin-bottom:14px;box-shadow:0 10px 26px rgba(27,35,82,.35)}
+  .cr_head .cr_tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:4px 14px;font-size:13px;letter-spacing:2px;margin-bottom:12px}
+  .cr_head h1{font-size:26px;letter-spacing:1px}
+  .cr_head p{margin-top:8px;color:#cfc8e8;font-size:14px}
+  .cr_head .cr_meta{margin-top:10px;font-size:13.5px;color:#e4dcff}
+
+  /* 任务说明框 */
+  .cr_rule{background:#fffbe6;border:1px solid #e6a817;border-radius:12px;padding:14px 20px;margin-bottom:24px;font-size:14px;color:#7c5e10}
+  .cr_rule b{color:#b45309}
+
+  /* 任务卡片 */
+  .cr_task{background:#171d33;border:1px solid #2a3454;border-radius:14px;padding:22px 26px;margin-bottom:16px;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+  .cr_task-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .cr_task-head .cr_no{flex:none;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1b2352,#5a3fd4);color:#fff;font-size:20px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+  .cr_task-head h2{font-size:19px}
+  .cr_task-head .cr_star{margin-left:auto;font-size:14px;color:#ffd166;letter-spacing:2px;white-space:nowrap}
+  .cr_task p{font-size:14px;color:#b9c4dd}
+  .cr_task .cr_dim{display:inline-block;font-size:12.5px;color:#7cc4ff;background:rgba(124,196,255,.1);border:1px solid rgba(124,196,255,.35);border-radius:999px;padding:2px 12px;margin:8px 6px 0 0}
+  .cr_task .cr_check{margin-top:10px;font-size:13.5px;color:#9fe0a8}
+  .cr_task .cr_check b{color:#c8f7d0}
+  .cr_task .cr_go{display:inline-block;margin-top:14px;text-decoration:none;color:#fff;font-size:14px;font-weight:bold;background:linear-gradient(135deg,#1b2352,#5a3fd4);border-radius:999px;padding:9px 24px;transition:transform .2s,box-shadow .2s}
+  .cr_task .cr_go:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(90,63,212,.4)}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:26px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#cfc8e8;font-size:14.5px;font-weight:bold;background:#171d33;border:1px solid #2a3454;border-radius:999px;padding:10px 26px}
+  .cr_back a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.3)}
+
+  footer{text-align:center;margin-top:30px;color:#8792ad;font-size:13px;line-height:2}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高 级 网 页 设 计 · 移 动 端 触 摸 事 件</span>
+    <h1>课堂实践任务书 · 四关递进</h1>
+    <p>观察 → 实现 → 综合 → 设备能力：四个任务四个能力维度，点击卡片下方按钮进入对应作业页</p>
+    <div class="cr_meta">姓名：陈茹 · 学号：24002120621 · 2026-11-18 ｜ 使用模型：GLM-5.3-Flash</div>
+  </header>
+
+  <!-- 任务说明 -->
+  <div class="cr_rule">
+    <b>📋 提交要求：</b>四个任务按星级选做（至少完成 ⭐⭐ 两关），每个作业页内含验收自检与答辩说明；
+    附运行截图（手机或设备模式）、遇到的一个坑与解决办法、本次使用的 AI 提示词记录（见 cr_prompt.md）。
+  </div>
+
+  <!-- 任务一 -->
+  <section class="cr_task">
+    <div class="cr_task-head">
+      <span class="cr_no">1</span>
+      <h2>事件侦探：一次拖动到底发生了什么</h2>
+      <span class="cr_star">⭐</span>
+    </div>
+    <p>用手机 / 设备模式对探针区做 5 种操作，记录事件触发顺序；回答验收三问；加分项为轨迹草图。作业页内置活体探针，可现场复测。</p>
+    <span class="cr_dim">观察</span><span class="cr_dim">记录</span><span class="cr_dim">不写业务代码</span>
+    <p class="cr_check"><b>验收：</b>① touchmove 次数与距离/时间的关系；② click 在 touchend 之后；③ 换成 touchcancel 会怎样</p>
+    <a class="cr_go" href="mobile-task1.html">进入任务一 →</a>
+  </section>
+
+  <!-- 任务二 -->
+  <section class="cr_task">
+    <div class="cr_task-head">
+      <span class="cr_no">2</span>
+      <h2>手势卡片：左右滑动切换中华美食</h2>
+      <span class="cr_star">⭐⭐</span>
+    </div>
+    <p>4 道美食卡片（真实食物照片 + 渐变文字区），左右滑动切换，阈值 40px 防误触，300ms 冷却防连滑，边界提示，0.3s 过渡动画。</p>
+    <span class="cr_dim">手势识别</span><span class="cr_dim">DOM 操作</span>
+    <p class="cr_check"><b>验收：</b>① 短距离误触不切换；② 快速连滑不跳两张；③ 拖动时页面不跟着滚</p>
+    <a class="cr_go" href="mobile-gesture.html">进入任务二 →</a>
+  </section>
+
+  <!-- 任务三 -->
+  <section class="cr_task">
+    <div class="cr_task-head">
+      <span class="cr_no">3</span>
+      <h2>图片查看器：双指缩放 + 旋转 + 拖动</h2>
+      <span class="cr_star">⭐⭐⭐</span>
+    </div>
+    <p>烤鸭大图查看器：双指捏合缩放 1x～4x、双指旋转、双击切换 1x/2x（0.25s 过渡）、放大后单指拖动，缩回 1x 自动居中；带缩放/角度指示器。</p>
+    <span class="cr_dim">多指手势</span><span class="cr_dim">变换</span><span class="cr_dim">状态管理</span>
+    <p class="cr_check"><b>验收：</b>① 以两指中心为基准不跳（实测锚点偏移 0.000px）；② 边界阻尼/限制；③ 1x 不能拖出边界；④ 旋转屏幕不丢状态</p>
+    <a class="cr_go" href="mobile-zoom.html">进入任务三 →</a>
+  </section>
+
+  <!-- 任务四 -->
+  <section class="cr_task">
+    <div class="cr_task-head">
+      <span class="cr_no">4</span>
+      <h2>摇一摇彩蛋：摇出今日菜谱</h2>
+      <span class="cr_star">⭐⭐⭐⭐</span>
+    </div>
+    <p>devicemotion 摇一摇随机抽菜（弹出动画），阈值 18 + 1.5 秒冷却；无传感器设备降级为按钮手抽；iOS 13+ 按钮申请权限；实时加速度读数。</p>
+    <span class="cr_dim">设备传感器</span><span class="cr_dim">权限</span><span class="cr_dim">降级</span>
+    <p class="cr_check"><b>验收：</b>① 一次摇动只触发一次；② 无设备不报错不白屏；③ iOS 按钮触发权限申请；④ 能讲清两种加速度事件的区别</p>
+    <a class="cr_go" href="mobile-sensor.html">进入任务四 →</a>
+  </section>
+
+  <!-- 返回 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+  <footer>移动端触摸事件 · 课堂实践任务书 · 高级网页设计 · 2026-2027-1</footer>
+</div>
+</body>
+</html>

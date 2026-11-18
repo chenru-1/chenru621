@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹　学号：24002120621
+    建立时间：2026-11-18
+    使用模型：GLM-5.3-Flash
+    功能名称：移动端课堂实践任务三·图片查看器——双指缩放/旋转 + 双击切换 + 单指拖动
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- 手机页面必备三件套之一：viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>任务三·图片查看器：双指缩放 + 旋转 + 拖动</title>
+<style>
+  /* 手机页面必备三件套之二：全局去掉点击灰块 */
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#0e1220;color:#e7ecf7;line-height:1.8}
+  .cr_wrap{max-width:520px;margin:0 auto;padding:24px 16px 50px}
+
+  /* 页头 */
+  .cr_head{text-align:center;margin-bottom:18px}
+  .cr_head .cr_tag{display:inline-block;font-size:12.5px;letter-spacing:3px;color:#7cc4ff;background:rgba(124,196,255,.1);border:1px solid rgba(124,196,255,.4);border-radius:999px;padding:4px 16px;margin-bottom:10px}
+  .cr_head h1{font-size:23px;letter-spacing:1px}
+  .cr_head p{font-size:13px;color:#8792ad;margin-top:6px}
+
+  /* 查看器容器：三件套之三 + 溢出裁剪 + 居中布局 */
+  .cr_stage{
+    position:relative;height:420px;max-height:70vh;border-radius:16px;
+    background:#05070d;border:1px solid #1d2740;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;   /* 1x 时图片自然居中 */
+    touch-action:none;                                        /* 手势全归页面代码接管 */
+    user-select:none;-webkit-touch-callout:none;
+    box-shadow:0 12px 32px rgba(0,0,0,.5);
+  }
+  /* 大图：宽度撑满容器，位移/旋转/缩放全靠 transform */
+  .cr_stage img{display:block;width:100%;transform-origin:center center;will-change:transform}
+
+  /* 缩放/旋转比例指示器（加分项） */
+  .cr_badge{
+    position:absolute;left:12px;top:12px;z-index:2;
+    background:rgba(5,7,13,.78);border:1px solid #2b3a5e;border-radius:999px;
+    padding:5px 14px;font-size:13px;font-family:Consolas,monospace;color:#7cc4ff;
+    pointer-events:none;
+  }
+
+  /* 操作提示 */
+  .cr_tips{margin-top:12px;text-align:center;font-size:13px;color:#8792ad}
+  .cr_tips b{color:#7cc4ff}
+
+  /* 答辩说明卡 */
+  .cr_note{margin-top:22px;background:#131a2e;border:1px solid #24314f;border-radius:12px;padding:16px 20px;font-size:13.5px;color:#b9c4dd}
+  .cr_note h3{font-size:15px;color:#7cc4ff;margin-bottom:8px}
+  .cr_note b{color:#e7ecf7}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:26px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#7cc4ff;font-size:14px;font-weight:bold;border:1px solid rgba(124,196,255,.45);border-radius:999px;padding:10px 26px}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高级网页设计 · 移动端任务三（⭐⭐⭐）</span>
+    <h1>图片查看器 · 双指缩放 + 旋转</h1>
+    <p>请用手机或 DevTools 设备模式体验（鼠标没有多指触摸）</p>
+  </header>
+
+  <!-- 查看器容器 -->
+  <div class="cr_stage" id="crStage">
+    <span class="cr_badge" id="crZoomVal">1.00x · 0°</span>
+    <img src="mobile-imgs/kaoya.jpg" alt="北京烤鸭" id="crImg" draggable="false">
+  </div>
+
+  <!-- 操作提示 -->
+  <p class="cr_tips">
+    <b>双指捏合</b>缩放 1x～4x · <b>双指旋转</b>转图片 · <b>双击</b>切换 1x/2x · 放大后<b>单指拖动</b>看细节，缩回 1x 自动居中
+  </p>
+
+  <!-- 答辩说明 -->
+  <div class="cr_note">
+    <h3>🎤 答辩：我是如何保证"缩放不跳"的</h3>
+    每一次 touchmove 都以<b>两指中点为锚点</b>做"反解 → 正解"两步换算：
+    ① 先用<b>旧状态</b>（scale / 旋转角 / 位移）把中点坐标<b>反解</b>成图片内部那个像素点的局部坐标；
+    ② 再按<b>新状态</b>（新 scale / 新角度）把这个像素点<b>正解</b>回屏幕坐标，反推出应该补多少位移。
+    这样中点手指下的图像像素被"钉"在中点上，无论怎么捏合、旋转，图片都不会突然跳走。
+    位移还会在松手时做一次边界夹紧 + 0.25s 回弹动画，1x 时位移清零自动居中。
+    <br><br>
+    <b>验收自检：</b>① 锚点换算保证以两指中心为基准；② 缩放硬限制 1～4x，位移超界有 0.35 阻尼 + 回弹；
+    ③ 1x 时禁用拖动且位移清零居中，不会拖出边界；④ 缩放与旋转状态保存在变量里，
+    orientationchange / resize 只重新夹紧边界、<b>不清空状态</b>，旋转屏幕后不丢失。
+    <br><br>
+    <b>加分项：</b>双指旋转（Math.atan2 算两指连线角度差并累加）+ 左上角缩放/角度实时指示器。
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+</div>
+
+<!-- 手势逻辑外部引用：cr_ 前缀，函数均带注释 -->
+<script src="js/mobile-zoom.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹　学号：24002120621
+    建立时间：2026-11-18
+    使用模型：GLM-5.3-Flash
+    功能名称：移动端课堂实践任务二·手势卡片——左右滑动切换中华美食卡片
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- 手机页面必备三件套之一：viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>任务二·手势卡片：中华美食左右滑动切换</title>
+<style>
+  /* 手机页面必备三件套之二：全局去掉点击灰块 */
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#14101e;color:#f3efe6;line-height:1.8}
+  .cr_wrap{max-width:520px;margin:0 auto;padding:28px 16px 50px}
+
+  /* 页头 */
+  .cr_head{text-align:center;margin-bottom:20px}
+  .cr_head .cr_tag{display:inline-block;font-size:12.5px;letter-spacing:3px;color:#e8b74a;background:rgba(232,183,74,.12);border:1px solid rgba(232,183,74,.4);border-radius:999px;padding:4px 16px;margin-bottom:10px}
+  .cr_head h1{font-size:24px;letter-spacing:1px}
+  .cr_head p{font-size:13px;color:#9c93b8;margin-top:6px}
+
+  /* 卡片舞台 */
+  .cr_stage{position:relative}
+
+  /* 视口：只显示当前一张；touch-action: pan-y 表示横向手势归我们、纵向滚动交给浏览器（三件套之三） */
+  .cr_viewport{overflow:hidden;border-radius:18px;touch-action:pan-y;user-select:none;-webkit-touch-callout:none;box-shadow:0 12px 32px rgba(0,0,0,.45)}
+
+  /* 轨道：4 张卡片横排，靠 transform 位移切换，0.3s 过渡动画 */
+  .cr_track{display:flex;transition:transform .3s ease}
+
+  /* 单张卡片：上图（食物照片）下文（菜名、简介），渐变背景衬文字区 */
+  .cr_slide{flex:0 0 100%;height:430px;display:flex;flex-direction:column;justify-content:flex-end;position:relative}
+  .cr_slide .cr_food{width:100%;height:250px;object-fit:cover;display:block;flex:none;border-bottom:1px solid rgba(255,255,255,.18)}
+  .cr_slide .cr_txt{padding:8px 28px 28px}
+  .cr_slide h2{font-size:25px;letter-spacing:2px;text-shadow:0 2px 8px rgba(0,0,0,.35)}
+  .cr_slide p{margin-top:8px;font-size:14.5px;color:rgba(255,255,255,.92);text-shadow:0 1px 6px rgba(0,0,0,.3)}
+  .cr_slide .cr_no{position:absolute;top:16px;right:20px;z-index:1;font-size:13px;color:#fff;background:rgba(0,0,0,.35);border-radius:999px;padding:2px 12px}
+
+  /* 四道菜的渐变背景 */
+  .cr_g1{background:linear-gradient(135deg,#b03a2e,#e67e22)}   /* 北京烤鸭 */
+  .cr_g2{background:linear-gradient(135deg,#8e2c48,#d35273)}   /* 麻婆豆腐 */
+  .cr_g3{background:linear-gradient(135deg,#b7791f,#e6c35c)}   /* 小笼包 */
+  .cr_g4{background:linear-gradient(135deg,#4e342e,#8d6e63)}   /* 佛跳墙 */
+
+  /* 边界提示浮层 */
+  .cr_hint{
+    position:absolute;left:50%;top:22px;transform:translateX(-50%) translateY(-6px);
+    background:rgba(20,16,30,.88);border:1px solid rgba(232,183,74,.5);color:#e8b74a;
+    font-size:13.5px;border-radius:999px;padding:7px 18px;white-space:nowrap;
+    opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;
+  }
+  .cr_hint.cr_show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* 页码指示 */
+  .cr_counter{text-align:center;margin-top:16px;font-size:15px;color:#cfc8e8;letter-spacing:2px}
+  .cr_counter b{color:#e8b74a}
+
+  /* 阈值与冷却说明 */
+  .cr_note{margin-top:26px;background:#1c1630;border:1px solid #352a58;border-radius:12px;padding:16px 20px;font-size:13.5px;color:#b6abd6}
+  .cr_note b{color:#e8b74a}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:26px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#e8b74a;font-size:14px;font-weight:bold;border:1px solid rgba(232,183,74,.45);border-radius:999px;padding:10px 26px}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高级网页设计 · 移动端任务二（⭐⭐）</span>
+    <h1>手势卡片 · 中华美食</h1>
+    <p>左右滑动切换 · 阈值 40px · 冷却 300ms · 请用手机或 DevTools 设备模式体验</p>
+  </header>
+
+  <!-- 卡片舞台 -->
+  <div class="cr_stage">
+    <div class="cr_viewport" id="crViewport">
+      <div class="cr_track" id="crTrack">
+        <div class="cr_slide cr_g1">
+          <span class="cr_no">01</span>
+          <img class="cr_food" src="mobile-imgs/kaoya.jpg" alt="北京烤鸭">
+          <div class="cr_txt">
+            <h2>北京烤鸭</h2>
+            <p>皮脆肉嫩、肥而不腻。果木挂炉烤制，配薄饼、葱丝与甜面酱卷食，是京菜的头牌。</p>
+          </div>
+        </div>
+        <div class="cr_slide cr_g2">
+          <span class="cr_no">02</span>
+          <img class="cr_food" src="mobile-imgs/mapodoufu.jpg" alt="麻婆豆腐">
+          <div class="cr_txt">
+            <h2>麻婆豆腐</h2>
+            <p>麻、辣、烫、香、酥、嫩、鲜、活八字箴言。豆腐嫩滑红油亮，花椒一撒满屋香。</p>
+          </div>
+        </div>
+        <div class="cr_slide cr_g3">
+          <span class="cr_no">03</span>
+          <img class="cr_food" src="mobile-imgs/xiaolongbao.jpg" alt="小笼包">
+          <div class="cr_txt">
+            <h2>小笼包</h2>
+            <p>皮薄如纸、提褶如花。轻轻提、慢慢移、先开窗、后喝汤——一口鲜汁烫嘴也值。</p>
+          </div>
+        </div>
+        <div class="cr_slide cr_g4">
+          <span class="cr_no">04</span>
+          <img class="cr_food" src="mobile-imgs/fotiaoqiang.jpg" alt="佛跳墙">
+          <div class="cr_txt">
+            <h2>佛跳墙</h2>
+            <p>坛启荤香飘四邻，佛闻弃禅跳墙来。鲍参翅肚十余种料，文火煨足时辰方成一坛。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 边界提示：滑到头再往同方向滑时显示 -->
+    <div class="cr_hint" id="crHint">已经是第一张</div>
+  </div>
+
+  <!-- 页码指示：随切换更新 -->
+  <p class="cr_counter" id="crCounter">第 <b>1</b>/4 张</p>
+
+  <!-- 实现要点说明（答辩用） -->
+  <div class="cr_note">
+    <b>验收自检：</b><br>
+    ① 阈值生效——横向位移 &lt; 40px 的短距离误触直接忽略，不会切换；<br>
+    ② 300ms 冷却——切换后 0.3 秒内的再次滑动被忽略，快速连滑不会一次跳两张；<br>
+    ③ 卡片容器加 <b>touch-action: pan-y</b>——横向手势归页面代码接管，纵向滚动仍交给浏览器，拖卡片时页面不会跟着乱滚。
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+</div>
+
+<!-- 手势逻辑外部引用：cr_ 前缀，函数均带注释 -->
+<script src="js/mobile-gesture.js"></script>
+</body>
+</html>

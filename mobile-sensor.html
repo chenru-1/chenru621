@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹　学号：24002120621
+    建立时间：2026-11-18
+    使用模型：GLM-5.3-Flash
+    功能名称：移动端课堂实践任务四·摇一摇彩蛋——devicemotion 摇动抽菜谱（含降级与 iOS 权限）
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- 手机页面必备三件套之一：viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>任务四·摇一摇彩蛋：摇出今日菜谱</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#101408;color:#f0f4e4;line-height:1.8}
+  .cr_wrap{max-width:520px;margin:0 auto;padding:26px 16px 50px}
+
+  /* 页头 */
+  .cr_head{text-align:center;margin-bottom:20px}
+  .cr_head .cr_tag{display:inline-block;font-size:12.5px;letter-spacing:3px;color:#b6e356;background:rgba(182,227,86,.1);border:1px solid rgba(182,227,86,.4);border-radius:999px;padding:4px 16px;margin-bottom:10px}
+  .cr_head h1{font-size:24px;letter-spacing:1px}
+  .cr_head p{font-size:13px;color:#8f9a78;margin-top:6px}
+
+  /* 传感器状态徽章 */
+  .cr_status{text-align:center;margin-bottom:16px}
+  .cr_status span{display:inline-block;font-size:13px;border-radius:999px;padding:5px 16px;border:1px solid #3a4526;background:#1a2110;color:#b6e356}
+  .cr_status span.cr_bad{color:#ff9c9c;border-color:#5e3030;background:#2a1515}
+
+  /* 抽奖结果卡 */
+  .cr_result{
+    min-height:300px;border-radius:18px;padding:30px 26px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    background:linear-gradient(160deg,#24300f,#3e5713);border:1px solid #556d20;
+    box-shadow:0 12px 32px rgba(0,0,0,.45);
+  }
+  .cr_result .cr_emoji{font-size:64px;line-height:1.2}
+  .cr_result h2{font-size:28px;margin-top:10px;letter-spacing:2px;color:#f4ffb8}
+  .cr_result p{margin-top:8px;font-size:14.5px;color:#cfe0a0;max-width:360px}
+  .cr_result .cr_empty{font-size:17px;color:#a8b98a}
+
+  /* 弹出动画：缩放弹一下 */
+  @keyframes crPop{
+    0%{transform:scale(.3);opacity:0}
+    60%{transform:scale(1.15);opacity:1}
+    100%{transform:scale(1);opacity:1}
+  }
+  .cr_result.cr_pop .cr_popbox{animation:crPop .45s ease both}
+
+  /* 加速度实时读数 */
+  .cr_live{margin-top:14px;text-align:center;font-family:Consolas,monospace;font-size:12.5px;color:#8f9a78;min-height:38px}
+  .cr_live b{color:#b6e356;font-weight:normal}
+
+  /* 按钮（iOS 权限 / 降级手抽） */
+  .cr_btns{text-align:center;margin-top:16px;min-height:48px}
+  .cr_btns button{display:none;margin:0 6px;border:1px solid #556d20;background:#24300f;color:#b6e356;font-size:14.5px;font-weight:bold;border-radius:999px;padding:11px 26px;cursor:pointer}
+  .cr_btns button.cr_show{display:inline-block}
+
+  /* 答辩说明卡 */
+  .cr_note{margin-top:24px;background:#161c0c;border:1px solid #37431f;border-radius:12px;padding:16px 20px;font-size:13.5px;color:#bcc9a2}
+  .cr_note h3{font-size:15px;color:#b6e356;margin-bottom:8px}
+  .cr_note b{color:#f0f4e4}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:26px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#b6e356;font-size:14px;font-weight:bold;border:1px solid rgba(182,227,86,.45);border-radius:999px;padding:10px 26px}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高级网页设计 · 移动端任务四（⭐⭐⭐⭐）</span>
+    <h1>摇一摇彩蛋 · 抽今日菜谱</h1>
+    <p>devicemotion 加速度事件 · 阈值 18 · 冷却 1.5 秒 · 请用手机体验</p>
+  </header>
+
+  <!-- 传感器状态 -->
+  <p class="cr_status"><span id="crStatus">📡 正在检测加速度传感器…</span></p>
+
+  <!-- 抽奖结果卡 -->
+  <div class="cr_result" id="crResult">
+    <div class="cr_popbox">
+      <div class="cr_empty">摇一摇手机，抽今日菜谱 📱<br><small style="font-size:13px">（用力摇，合成加速度超过 18 才算摇动）</small></div>
+    </div>
+  </div>
+
+  <!-- 加速度实时读数（答辩观察用） -->
+  <p class="cr_live" id="crLive">等待传感器数据…</p>
+
+  <!-- iOS 权限按钮（仅 iOS 13+ 显示）与降级"手抽"按钮（无传感器时显示） -->
+  <div class="cr_btns">
+    <button type="button" id="crAuth">🔓 允许使用动作传感器（iOS）</button>
+    <button type="button" id="crManual">🎲 点我抽一次</button>
+  </div>
+
+  <!-- 答辩说明 -->
+  <div class="cr_note">
+    <h3>🎤 答辩：accelerationIncludingGravity 与 acceleration 的区别</h3>
+    <b>accelerationIncludingGravity</b>：包含重力在内的加速度——手机静止平放时合成值约 9.8（重力分量），
+    摇动时是"真实加速度 + 重力分量"的叠加，数值基线稳定、所有设备都有数据。
+    <b>acceleration</b>：剔除重力后的纯线性加速度，静止时约为 0，数值干净但部分设备（尤其低端安卓）可能拿不到。
+    摇一摇选 <b>accelerationIncludingGravity</b>：静止基线 9.8 已知，用力摇动时合成值会瞬间冲过 18，
+    阈值判断直观可靠；就算陀螺仪校准不准也不影响。<b>降级</b>则保证没有传感器的设备不报错不白屏，
+    还能用按钮手动抽。触发后有 1.5 秒冷却，一次摇动（连续多个超阈值采样）只抽一次。
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+</div>
+
+<!-- 摇一摇逻辑外部引用：cr_ 前缀，函数均带注释 -->
+<script src="js/mobile-sensor.js"></script>
+</body>
+</html>

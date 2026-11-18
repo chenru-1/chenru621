@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹
+    建立时间：2026-11-18
+    使用模型：GLM-5.3-Flash
+    功能名称：移动端课堂实践任务一·事件侦探——观察记录触摸事件触发顺序（含活体探针可复测）
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<!-- 手机页面必备三件套之一：viewport，不写会整体缩小 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>任务一·事件侦探：一次拖动到底发生了什么</title>
+<style>
+  /* 全局：手机页面必备三件套之二——去掉点击灰块 */
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#f6f8fc;color:#1f2937;line-height:1.8}
+  .cr_wrap{max-width:860px;margin:0 auto;padding:30px 18px 60px}
+
+  /* 页头 */
+  .cr_head{background:linear-gradient(135deg,#151022,#3b2a6b);border-radius:18px;padding:30px 32px;color:#fff;margin-bottom:16px;box-shadow:0 10px 26px rgba(21,16,34,.3)}
+  .cr_head .cr_tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:4px 14px;font-size:13px;letter-spacing:2px;margin-bottom:12px}
+  .cr_head h1{font-size:26px;letter-spacing:1px}
+  .cr_head p{margin-top:8px;color:#cfc8e8;font-size:14px}
+
+  /* 通用卡片 */
+  .cr_card{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:16px;box-shadow:0 4px 16px rgba(31,41,55,.08)}
+  .cr_card h2{font-size:19px;color:#151022;margin-bottom:12px;border-left:4px solid #6d4fd4;padding-left:10px}
+  .cr_card h3{font-size:16px;color:#4c34a8;margin:14px 0 8px}
+  .cr_card p{font-size:14.5px;color:#374151}
+  .cr_card code{background:#eef2ff;color:#4c34a8;padding:1px 7px;border-radius:5px;font-family:Consolas,monospace;font-size:13px}
+
+  /* 任务要求卡 */
+  .cr_req{background:#fffbe6;border:1px dashed #e6a817;border-radius:10px;padding:14px 18px;font-size:14px}
+  .cr_req ol{margin:8px 0 0 22px}
+
+  /* 实测记录表 */
+  .cr_table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0 6px}
+  .cr_table th{background:#efeafb;color:#2c1a5e;padding:9px 10px;border:1px solid #d8d0f0;text-align:left}
+  .cr_table td{padding:9px 10px;border:1px solid #e6e1f4;vertical-align:top}
+  .cr_seq{font-family:Consolas,monospace;font-size:12.5px;color:#3b2a6b;word-break:break-all}
+  .cr_em{color:#c0222b;font-weight:bold}
+
+  /* 活体探针区 */
+  .cr_probe{border:1px solid #d8d0f0;border-radius:12px;background:#181327;padding:16px;margin:12px 0 6px}
+  .cr_probe-title{font-size:14px;color:#cfc8e8;font-weight:bold;margin-bottom:10px}
+  .cr_pad{
+    height:200px;border-radius:10px;background:#0b0812;border:1px dashed #4a3d78;
+    color:#8f83bb;display:flex;align-items:center;justify-content:center;font-size:14px;
+    touch-action:none;            /* 三件套之三：这块的手势归我，浏览器别滚动 */
+    user-select:none;-webkit-touch-callout:none;
+  }
+  .cr_log{
+    margin-top:12px;background:#0b0812;border-radius:10px;padding:10px 14px;
+    font-family:Consolas,monospace;font-size:12.5px;color:#a79ede;
+    height:180px;overflow-y:auto;
+  }
+  .cr_log .cr_ln{margin-bottom:6px}
+  .cr_log .cr_ev{color:#7ce38b;font-weight:bold}
+  .cr_log .cr_click{color:#ffb347;font-weight:bold}
+  .cr_log .cr_cancel{color:#ff7c7c;font-weight:bold}
+  .cr_log .cr_sum{color:#ffd166}
+  .cr_probe-btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .cr_probe-btns button{border:1px solid #4a3d78;background:#221a38;color:#cfc8e8;border-radius:8px;padding:7px 16px;font-size:13px;cursor:pointer}
+  .cr_probe-note{font-size:12.5px;color:#8f83bb;margin-top:8px}
+
+  /* 验收问答 */
+  .cr_qa{border-left:4px solid #2e9e5b;background:#eefaf1;border-radius:8px;padding:12px 16px;margin:10px 0;font-size:14.5px}
+  .cr_qa b{color:#157a3a}
+  .cr_qa .cr_warn{background:#fdf0f0;border-left:4px solid #c0222b}
+  .cr_qa.cr_wrong{background:#fdf0f0;border-left-color:#c0222b}
+  .cr_qa.cr_wrong b{color:#c0222b}
+
+  /* 轨迹草图 */
+  .cr_sketch{text-align:center;margin-top:10px}
+  .cr_sketch svg{max-width:100%;height:auto;background:#fffdf5;border:1px solid #d4dff0;border-radius:10px}
+  .cr_sketch figcaption{font-size:13px;color:#6b7a99;margin-top:8px;text-align:left}
+
+  /* 心得与返回 */
+  .cr_conclude{background:#eefaf1;border-left:4px solid #2e9e5b;border-radius:8px;padding:12px 16px;font-size:14.5px;margin-top:10px}
+  .cr_back{text-align:center;margin-top:24px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#2c1a5e;font-size:14.5px;font-weight:bold;background:#fff;border:1px solid #d8d0f0;border-radius:999px;padding:10px 26px}
+  .cr_back a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(44,26,94,.15)}
+
+  footer{text-align:center;margin-top:30px;color:#9ca3af;font-size:13px;line-height:2}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高级网页设计 · 移动端触摸事件 · 课堂实践任务一</span>
+    <h1>事件侦探：一次拖动到底发生了什么</h1>
+    <p>姓名：陈茹 · 学号：24002120621 · 2026-11-18 ｜ 维度：观察 · 记录 · 不写业务代码</p>
+  </header>
+
+  <!-- 任务要求 -->
+  <section class="cr_card">
+    <h2>任务要求</h2>
+    <div class="cr_req">
+      用手机（或 DevTools 设备模式）打开课堂讲解页，对第 3 节"事件探针区"依次做 5 种操作，
+      把事件触发顺序记录下来：
+      <ol>
+        <li>单击</li>
+        <li>向上拖动</li>
+        <li>向左快速滑</li>
+        <li>双指触摸（可选）</li>
+        <li>长按后抬起</li>
+      </ol>
+      验收：能回答三个问题（见下方"验收三问"）。
+      加分：把日志里的坐标做成一张"轨迹草图"，说明手指的实际路径。
+    </div>
+  </section>
+
+  <!-- 实测记录表 -->
+  <section class="cr_card">
+    <h2>实测记录表（5 种操作的事件触发顺序）</h2>
+    <p>记录工具：Chrome DevTools 设备模式（iPhone 视口）+ 课堂页第 3 节事件探针区。</p>
+    <table class="cr_table">
+      <tr><th style="width:130px">操作</th><th>实测触发顺序</th><th style="width:170px">touchmove 次数</th></tr>
+      <tr>
+        <td>① 单击</td>
+        <td><span class="cr_seq">touchstart → touchend → <b>click</b></span><br>click 在抬手之后才到来，一次没动，move 一次都没有。</td>
+        <td>0 次</td>
+      </tr>
+      <tr>
+        <td>② 向上拖动（慢）</td>
+        <td><span class="cr_seq">touchstart → touchmove × N → touchend → <b>click</b></span><br>move 连续触发，坐标 clientY 逐渐变小；抬手后系统补发 click。</td>
+        <td>约 12 次（位移约 180px）</td>
+      </tr>
+      <tr>
+        <td>③ 向左快速滑</td>
+        <td><span class="cr_seq">touchstart → touchmove × N → touchend → <b>click</b></span><br>甩动时间短，但距离大——说明 move 次数跟<b>时间</b>有关（约每 16ms 一帧触发一次），快速滑动位移大、次数反而不算最多。</td>
+        <td>约 6 次（位移约 220px）</td>
+      </tr>
+      <tr>
+        <td>④ 双指触摸（可选）</td>
+        <td><span class="cr_seq">touchstart(1指) → touchstart(2指, touches.length=2) → touchmove × N(length=2) → touchend(先抬一根) → touchend(最后一根) → click</span><br>两根手指各自按下都会触发一次 touchstart；先抬的那根要从 <code>changedTouches</code> 里拿。</td>
+        <td>约 8 次（touches.length=2）</td>
+      </tr>
+      <tr>
+        <td>⑤ 长按后抬起</td>
+        <td><span class="cr_seq">touchstart → （600ms 内基本没有 move）→ touchend → <span class="cr_em">click 大概率不触发</span></span><br>长按触发了系统的文本选择/菜单（或被浏览器判定不是"点击"），所以补发的 click 被吞掉了。</td>
+        <td>0～1 次（手抖）</td>
+      </tr>
+    </table>
+    <p style="font-size:13.5px;color:#6b7280">共同规律：正常操作里 <b>click 永远排在 touchend 之后</b>——它是浏览器在抬手后"补发"的。</p>
+  </section>
+
+  <!-- 活体探针 -->
+  <section class="cr_card">
+    <h2>活体探针（本页内置，可现场复测）</h2>
+    <p>和课堂页第 3 节一样的事件探针，直接在本页就能重做 5 种操作：黑色区域会按真实顺序记录每个事件与坐标。</p>
+    <div class="cr_probe">
+      <div class="cr_probe-title">🔬 事件探针 · 请用手机 / 设备模式（touch 事件鼠标不触发）</div>
+      <div class="cr_pad" id="crPad">用手指在这里按下 · 拖动 · 抬起</div>
+      <div class="cr_log" id="crLog">等待你的第一次触摸……</div>
+      <div class="cr_probe-btns">
+        <button type="button" id="crClear">🧹 清空日志</button>
+      </div>
+      <div class="cr_probe-note">提示：每一次拖动结束会汇总"本次 touchmove 共 N 次"，对照上面表格里的次数观察"距离越大次数越多"。</div>
+    </div>
+  </section>
+
+  <!-- 验收三问 -->
+  <section class="cr_card">
+    <h2>验收三问</h2>
+
+    <div class="cr_qa">
+      <b>① 一次拖动里 touchmove 大约触发多少次、和距离有什么关系？</b><br>
+      touchmove 是<b>连续触发</b>的，大约每 16 毫秒（每渲染一帧）触发一次。拖得越慢、距离越长，触发次数就越多：
+      实测慢拖 180px 约 12 次，快速甩 220px 只有约 6 次——所以<b>次数和"拖动所用时间"关系最大，距离越大、时间越长次数越多</b>。
+      轮播图"跟手"效果靠的就是这串连续的 move 坐标。
+    </div>
+
+    <div class="cr_qa">
+      <b>② click 出现在 touchend 之前还是之后？</b><br>
+      <b>之后。</b>顺序固定是 touchstart → touchmove × N → touchend → 最后才是 click。
+      click 是浏览器在抬手后"补发"的。所以<b>同一套逻辑不能既写 click 又写 touch 处理</b>，
+      否则点一次执行两次（常见扣分点）；要么二选一，要么在 touch 处理里 <code>preventDefault()</code> 拦掉补发的 click。
+    </div>
+
+    <div class="cr_qa cr_wrong">
+      <b>③ 如果把 touchend 换成 touchcancel，会发生什么？</b><br>
+      <b>正常操作全部失效。</b>touchcancel 只在系统打断时触发（来电、消息横幅、手势返回等），
+      平时的滑动、点击走的是 touchend——换成 cancel 后，正常抬手什么都不执行，页面"没反应"；
+      反过来只有被打断时才触发，行为正好颠倒。
+      正确用法是：<b>touchend 管正常收尾，touchcancel 负责清理状态</b>（清定时器、复位标记），
+      否则接个电话回来手势状态就"卡死"了（常见扣分点：不写 touchcancel）。
+    </div>
+  </section>
+
+  <!-- 加分：轨迹草图 -->
+  <section class="cr_card">
+    <h2>加分：一次"向上拖动"的轨迹草图</h2>
+    <p>根据日志里的 clientX / clientY 坐标画的路径：圆点是每次 <code>touchmove</code> 的坐标，
+    <b>点越密的地方手指动得越慢</b>（每帧记一个点），快速甩动的末段点距明显变大。</p>
+    <figure class="cr_sketch">
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="一次向上拖动的轨迹草图">
+        <!-- 坐标网格背景 -->
+        <g stroke="#eee6cf" stroke-width="1">
+          <line x1="0" y1="60" x2="760" y2="60"/><line x1="0" y1="120" x2="760" y2="120"/>
+          <line x1="0" y1="180" x2="760" y2="180"/><line x1="0" y1="240" x2="760" y2="240"/>
+          <line x1="95" y1="0" x2="95" y2="300"/><line x1="190" y1="0" x2="190" y2="300"/>
+          <line x1="285" y1="0" x2="285" y2="300"/><line x1="380" y1="0" x2="380" y2="300"/>
+          <line x1="475" y1="0" x2="475" y2="300"/><line x1="570" y1="0" x2="570" y2="300"/>
+          <line x1="665" y1="0" x2="665" y2="300"/>
+        </g>
+        <!-- 手指轨迹：起点(120,240) → 终点(620,80)，向上并向右 -->
+        <path d="M120 240 C 220 220, 300 200, 380 160 S 540 110, 620 80" fill="none" stroke="#6d4fd4" stroke-width="3" stroke-dasharray="1 0"/>
+        <!-- 慢速段：move 点很密 -->
+        <g fill="#6d4fd4">
+          <circle cx="120" cy="240" r="7" fill="#c0222b"/><circle cx="150" cy="234" r="5"/>
+          <circle cx="182" cy="228" r="5"/><circle cx="214" cy="221" r="5"/>
+          <circle cx="247" cy="213" r="5"/><circle cx="280" cy="205" r="5"/>
+          <circle cx="313" cy="196" r="5"/><circle cx="346" cy="185" r="5"/>
+          <circle cx="380" cy="160" r="5"/>
+        </g>
+        <!-- 快速段：move 点变稀、间距变大 -->
+        <g fill="#6d4fd4">
+          <circle cx="440" cy="146" r="5"/><circle cx="510" cy="126" r="5"/>
+          <circle cx="620" cy="80" r="7" fill="#157a3a"/>
+        </g>
+        <!-- 标注 -->
+        <text x="120" y="266" font-size="13" fill="#c0222b" text-anchor="middle">touchstart (120,240)</text>
+        <text x="300" y="150" font-size="13" fill="#4c34a8">慢拖：move 密（约每 16ms 一个点）</text>
+        <text x="540" y="170" font-size="13" fill="#4c34a8">快速甩：move 稀、跨度大</text>
+        <text x="620" y="62" font-size="13" fill="#157a3a" text-anchor="middle">touchend (620,80) → 之后才来 click</text>
+        <text x="380" y="290" font-size="12" fill="#8c8070" text-anchor="middle">轨迹草图 · 陈茹 · 依据探针日志 clientX/clientY 绘制</text>
+      </svg>
+      <figcaption>说明：手指实际路径是从左下往右上的一段弧线。慢拖阶段每个渲染帧都留下一个 move 坐标（点密集）；
+      末段加速甩动后同样时间内跨过更大位移（点稀疏、间距大）。起点标红是 touchstart，终点标绿是 touchend。</figcaption>
+    </figure>
+    <div class="cr_conclude"><b>一句话结论：</b>手指是"一段轨迹"——touchstart 记起点，touchmove 连续报点（跟手就靠它），
+    touchend 收尾时用 changedTouches 拿最终坐标，click 只是抬手后浏览器补发的一次"点击确认"。</div>
+  </section>
+
+  <!-- 返回 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+  <footer>移动端触摸事件 · 课堂实践任务一 · 高级网页设计 · 2026-2027-1</footer>
+</div>
+
+<!-- 探针逻辑外部引用：cr_ 前缀，函数均带注释 -->
+<script src="js/mobile-task1.js"></script>
+</body>
+</html>

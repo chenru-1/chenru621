@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹
+    建立时间：2026-11-13
+    使用模型：GLM-5.3-Flash
+    功能名称：诗词卡片墙——上图下文结构，数据由本地服务器(localhost:3004)的 db.json poems 提供
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>诗词卡片墙 · 上图下文 · 本地数据服务器</title>
+<style>
+  /* 全局重置与页面背景 */
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#f4f1ea;color:#3a3226;line-height:1.75}
+  .cr_wrap{max-width:1060px;margin:0 auto;padding:36px 20px 60px}
+
+  /* 页头 */
+  .cr_head{text-align:center;margin-bottom:30px}
+  .cr_head .cr_badge{display:inline-block;font-size:13px;letter-spacing:3px;color:#8c6b2f;background:#f0e6d2;border:1px solid #d9c79a;border-radius:999px;padding:5px 18px;margin-bottom:12px}
+  .cr_head h1{font-size:30px;color:#2c2417;letter-spacing:2px}
+  .cr_head p{margin-top:8px;font-size:14px;color:#8c8070}
+  .cr_head p code{background:#ece5d6;color:#8c6b2f;padding:1px 8px;border-radius:5px;font-family:Consolas,monospace;font-size:13px}
+
+  /* 卡片网格：上图下文 */
+  .cr_grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+  .cr_card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 18px rgba(58,50,38,.12);transition:transform .25s,box-shadow .25s}
+  .cr_card:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(58,50,38,.2)}
+
+  /* 图：卡片上半部分 */
+  .cr_card img{display:block;width:100%;height:210px;object-fit:cover}
+
+  /* 文：卡片下半部分 */
+  .cr_body{padding:16px 20px 20px}
+  .cr_body h2{font-size:19px;color:#2c2417;letter-spacing:1px;border-left:4px solid #b08d3e;padding-left:10px}
+  .cr_body p{margin-top:10px;font-size:14.5px;color:#5c5344}
+
+  /* 加载与错误提示 */
+  .cr_tip{text-align:center;font-size:14px;color:#8c8070;padding:40px 0}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:34px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#8c6b2f;font-size:14.5px;font-weight:bold;background:#fff;border:1px solid #d9c79a;border-radius:999px;padding:10px 26px;transition:transform .2s,box-shadow .2s}
+  .cr_back a:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(140,107,47,.18)}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_badge">高 职 · 高 级 网 页 设 计 · 前 后 端 分 离 小 例</span>
+    <h1>诗词卡片墙</h1>
+    <p>页面只管展示，数据来自本地服务器 <code>http://localhost:3004/api/poems</code>（db/db.json）</p>
+  </header>
+
+  <!-- 卡片容器：JS 从服务器取到 poems 后在这里生成"上图下文"卡片 -->
+  <div class="cr_grid" id="crGrid">
+    <p class="cr_tip" id="crTip">正在从本地服务器读取数据…（请先在 db 文件夹运行 <b>node server.js</b>）</p>
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+</div>
+
+<!-- 页面逻辑外部引用：请求服务器接口并渲染上图下文卡片 -->
+<script src="js/poems.js"></script>
+</body>
+</html>
