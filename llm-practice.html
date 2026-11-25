@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--
+    作者：陈茹
+    建立时间：2026-11-25
+    使用模型：GLM-5.3-Flash
+    功能名称：LLM 实践测试展示页——对话客服 / 知识库问答 / 图像识别 / 语音识别 五大板块与实测截图
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM 实践测试展示 · 陈茹</title>
+<style>
+  /* 全局：深色科技风 */
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;background:#0a0e1a;color:#dfe6f5;line-height:1.8}
+  .cr_wrap{max-width:1000px;margin:0 auto;padding:40px 22px 70px}
+
+  /* 页头 */
+  .cr_head{background:linear-gradient(135deg,#1b2a4d 0%,#3b2a6b 55%,#6b2a55 100%);border-radius:20px;padding:34px 38px;margin-bottom:30px;box-shadow:0 14px 34px rgba(0,0,0,.45);position:relative;overflow:hidden}
+  .cr_head::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(124,196,255,.25),transparent 70%)}
+  .cr_head .cr_tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:4px 16px;font-size:13px;letter-spacing:2px;margin-bottom:14px}
+  .cr_head h1{font-size:30px;letter-spacing:1px;color:#fff}
+  .cr_head h1 b{color:#7cc4ff}
+  .cr_head p{margin-top:10px;font-size:14px;color:#c6d2ea}
+
+  /* 功能板块卡片 */
+  .cr_sec{background:#121829;border:1px solid #223052;border-radius:16px;padding:24px 28px;margin-bottom:24px;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+  .cr_sec-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+  .cr_sec-head .cr_no{flex:none;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-size:19px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+  .cr_sec-head h2{font-size:20px;color:#fff}
+  .cr_sec-head small{display:block;font-weight:normal;color:#8296b8;font-size:12.5px;margin-top:2px}
+  .cr_sec p.cr_desc{font-size:14px;color:#b9c6de;margin-bottom:8px}
+  .cr_sec p.cr_desc b{color:#7cc4ff}
+
+  /* 能力标签 */
+  .cr_dims{margin-bottom:14px}
+  .cr_dims i{font-style:normal;display:inline-block;font-size:12.5px;color:#9db4dd;background:#1a2340;border:1px solid #2c3d6b;border-radius:999px;padding:3px 12px;margin:0 6px 6px 0}
+
+  /* 截图块 */
+  .cr_shot{margin-top:14px}
+  .cr_shot-title{font-size:13.5px;color:#7cc4ff;font-weight:bold;margin-bottom:8px}
+  .cr_shot figure{margin:0 0 12px}
+  .cr_shot img{width:100%;display:block;border:1px solid #2c3d6b;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.45)}
+  .cr_shot figcaption{font-size:12.5px;color:#8296b8;margin-top:6px;padding-left:4px}
+  /* 双图连排（同一页面的上下两截） */
+  .cr_shot .cr_chain figcaption b{color:#a9c6f5}
+
+  /* 返回首页 */
+  .cr_back{text-align:center;margin-top:30px}
+  .cr_back a{display:inline-block;text-decoration:none;color:#7cc4ff;font-size:14.5px;font-weight:bold;border:1px solid rgba(124,196,255,.45);border-radius:999px;padding:10px 28px;transition:background .2s}
+  .cr_back a:hover{background:rgba(124,196,255,.1)}
+
+  footer{text-align:center;margin-top:30px;color:#5f7295;font-size:13px;line-height:2}
+</style>
+</head>
+<body>
+<div class="cr_wrap">
+
+  <!-- 页头 -->
+  <header class="cr_head">
+    <span class="cr_tag">高 职 · 高 级 网 页 设 计 · LLM 实 践 测 试</span>
+    <h1>大模型应用实践测试展示 · <b>五大功能实测</b></h1>
+    <p>姓名：陈茹 · 学号：24002120621 · 使用模型：GLM-5.3-Flash ｜ 项目地址：localhost:8621 ｜ 每个板块下方附实测截图</p>
+  </header>
+
+  <!-- 板块一：中华美食街在线客服 -->
+  <section class="cr_sec">
+    <div class="cr_sec-head">
+      <span class="cr_no">1</span>
+      <h2>智能对话 · 中华美食街在线客服<small>chat.html · 硅基流动模型</small></h2>
+    </div>
+    <p class="cr_desc">美食街项目的在线客服，聚焦<b>营业时间、招牌菜、配送范围</b>三类问题，其他问题引导留言转人工。实测提问"你们几点营业"，AI 按知识库口径回答<b>周一至周日 10:00–22:00，最后点单 21:30</b>，并附【硅基流动】来源标注；支持清空对话。</p>
+    <div class="cr_dims"><i>模型：硅基流动</i><i>限定领域问答</i><i>来源标注</i><i>接口：POST /api/chat</i></div>
+    <div class="cr_shot">
+      <div class="cr_shot-title">📸 实测截图</div>
+      <figure>
+        <img src="llm-imgs/chat1.png" alt="中华美食街在线客服实测：营业时间问答">
+        <figcaption>提问"你们几点营业"——AI 准确回答营业时间并以【硅基流动】标注来源</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 板块二：悦厨在线客服 -->
+  <section class="cr_sec">
+    <div class="cr_sec-head">
+      <span class="cr_no">2</span>
+      <h2>智能对话 · 悦厨在线客服<small>service.html · 七牛大模型驱动</small></h2>
+    </div>
+    <p class="cr_desc">美食平台<b>悦厨</b>的通用客服，覆盖平台使用、菜谱做法、售后问题。实测提问"红烧肉的肉选哪个部位好？"，AI 分点推荐<b>下五花肉（腹部）</b>与<b>上五花（靠背部）</b>并说明肥瘦层次与口感差异；底部提供<b>猜你想问</b>快捷追问按钮，支持清空对话。</p>
+    <div class="cr_dims"><i>模型：七牛大模型</i><i>开放领域问答</i><i>猜你想问</i><i>接口：POST /api/kefu</i></div>
+    <div class="cr_shot">
+      <div class="cr_shot-title">📸 实测截图</div>
+      <figure>
+        <img src="llm-imgs/chat2.png" alt="悦厨在线客服实测：红烧肉选部位问答">
+        <figcaption>红烧肉选部位问答——分点推荐下五花/上五花，底部有猜你想问快捷按钮</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 板块三：知识库问答（第3、4张截图同属 kb.html） -->
+  <section class="cr_sec">
+    <div class="cr_sec-head">
+      <span class="cr_no">3</span>
+      <h2>知识库问答 · 上传文档构建专属知识库<small>kb.html · RAG 检索增强问答</small></h2>
+    </div>
+    <p class="cr_desc">上传文档（txt / doc / docx / ppt / pptx）解析为知识块，构建专属知识库；AI <b>仅依据知识库内容回答</b>，并标注引用来源与命中数量。实测上传<b>4 个文件共解析出 27 个知识块</b>（含 22组-短视频账号脚本.docx 解析出 10 块）；提问"会员积分怎么兑换"，AI 按知识库口径回答<b>每消费 1 元累计 1 积分，1000 积分可兑换 30 元无门槛代金券</b>，引用标注"中华美食街门店手册.txt（命中 6）"。</p>
+    <div class="cr_dims"><i>RAG 检索增强</i><i>文档解析</i><i>引用溯源</i><i>知识块管理/删除</i><i>接口：POST /api/kb/upload · GET /api/kb/files · DELETE /api/kb/files/:id · POST /api/kb/ask</i></div>
+    <div class="cr_shot">
+      <div class="cr_shot-title">📸 实测截图（同一页面上下两截连看）</div>
+      <div class="cr_chain">
+        <figure>
+          <img src="llm-imgs/kb1.png" alt="知识库问答上半部：上传解析与知识库管理">
+          <figcaption><b>上半部：</b>上传解析成功提示 + 知识库管理（4 个文件 / 27 个知识块，可删除）</figcaption>
+        </figure>
+        <figure>
+          <img src="llm-imgs/kb2.png" alt="知识库问答下半部：提问命中引用">
+          <figcaption><b>下半部：</b>基于知识库问答——"会员积分怎么兑换"命中【硅基流动】规则，引用门店手册.txt（命中 6）</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 板块四：图像识别 -->
+  <section class="cr_sec">
+    <div class="cr_sec-head">
+      <span class="cr_no">4</span>
+      <h2>图像识别 · 看图说话<small>vision.html · Qwen3-VL 多模态模型</small></h2>
+    </div>
+    <p class="cr_desc">上传图片（jpg / png / webp / gif，≤8MB），AI 视觉模型<b>返回图片内容描述</b>。实测上传"重生千金"四格剧照，模型 <b>Qwen/Qwen3-VL-8B-Instruct</b> 逐格描述画面：黑裙女主立于宴会中央气场强大、银色铠甲忧郁神情、泪眼凝望、金发女子举杯惊艳，并总结"色调金红交织、灯光璀璨、氛围华丽而戏剧化"。</p>
+    <div class="cr_dims"><i>多模态视觉</i><i>Qwen3-VL-8B</i><i>图片描述生成</i><i>接口：POST /api/vision</i></div>
+    <div class="cr_shot">
+      <div class="cr_shot-title">📸 实测截图</div>
+      <figure>
+        <img src="llm-imgs/vision.png" alt="图像识别实测：四格剧照描述">
+        <figcaption>四格剧照上传识别——模型按左上/右上/左下/右下逐格描述并整体总结氛围</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 板块五：语音识别 -->
+  <section class="cr_sec">
+    <div class="cr_sec-head">
+      <span class="cr_no">5</span>
+      <h2>语音识别 · 麦克风录音转文字<small>asr.html · Qwen3-Omni 全模态模型</small></h2>
+    </div>
+    <p class="cr_desc">上传音频或用麦克风直接录音（wav / mp3 / m4a / ogg / webm），AI 语音模型<b>输出识别文字</b>。实测点击"开始录音"录制 1 秒 webm 音频（31.4 KB），模型 <b>qwen/qwen3.8-omni-flash</b> 识别完成，输出文字"哈喽，哈喽。"，页面内可直接回放录音核对。</p>
+    <div class="cr_dims"><i>语音转文字 ASR</i><i>麦克风录音</i><i>Qwen3-Omni-Flash</i><i>接口：POST /api/asr</i></div>
+    <div class="cr_shot">
+      <div class="cr_shot-title">📸 实测截图</div>
+      <figure>
+        <img src="llm-imgs/asr.png" alt="语音识别实测：录音哈喽转文字">
+        <figcaption>麦克风录音 1 秒 → qwen3.8-omni-flash 识别输出"哈喽，哈喽。"</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 返回首页 -->
+  <div class="cr_back"><a href="index.html">← 返回课堂实践中心</a></div>
+
+  <footer>LLM 实践测试展示 · 陈茹 · 24002120621 · 高级网页设计</footer>
+</div>
+</body>
+</html>
